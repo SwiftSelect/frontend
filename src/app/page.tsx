@@ -1,30 +1,10 @@
-import Link from "next/link"
+import Nav from "@/components/nav/nav";
+import {PrimaryButton, IconButton} from "../components/buttons";
 
 export default function Home() {
   return (
   <div className="bg-gray-900 text-gray-100">
-    <header id="header" className="fixed w-full bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-8">
-            <a href="#" className="text-2xl font-bold text-purple-500">
-              <i className="fa-solid fa-brain mr-2"></i>
-              SwiftSelect
-            </a>
-            <nav className="hidden md:flex space-x-6">
-              <span  className="text-gray-300 hover:text-purple-500 cursor-pointer">Jobs</span>
-              <span  className="text-gray-300 hover:text-purple-500 cursor-pointer">Companies</span>
-              <span  className="text-gray-300 hover:text-purple-500 cursor-pointer">For Recruiters</span>
-            </nav>
-          </div>
-          <Link href="/login">
-            <div className="flex items-center space-x-4">
-              <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">Login</button>
-            </div> 
-          </Link>
-        </div>
-      </div>
-    </header>
+    <Nav />
     <section id="hero" className="pt-24 h-[700px]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
@@ -67,9 +47,9 @@ export default function Home() {
                   <p className="text-gray-400">Google</p>
                 </div>
               </div>
-              <button className="text-purple-500">
+              <IconButton>
                 <i className="fa-regular fa-bookmark"></i>
-              </button>
+              </IconButton>
             </div>
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="px-3 py-1 bg-gray-700 rounded-full text-sm">Remote</span>
@@ -79,7 +59,7 @@ export default function Home() {
             <p className="text-gray-400 mb-4">Join our team to build next-generation cloud infrastructure and help shape the future of technology.</p>
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-400">Posted 2 days ago</span>
-              <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">Apply Now</button>
+              <PrimaryButton>Apply Now</PrimaryButton>
             </div>
           </div>
           <div id="job-card-2" className="bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:shadow-purple-500/10 transition">
@@ -93,9 +73,9 @@ export default function Home() {
                   <p className="text-gray-400">Meta</p>
                 </div>
               </div>
-              <button className="text-purple-500">
+              <IconButton>
                 <i className="fa-regular fa-bookmark"></i>
-              </button>
+              </IconButton>
             </div>
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="px-3 py-1 bg-gray-700 rounded-full text-sm">Hybrid</span>
