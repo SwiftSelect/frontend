@@ -1,10 +1,8 @@
-import Nav from "@/components/nav/nav";
 import {PrimaryButton, IconButton} from "../components/buttons";
 
 export default function Home() {
   return (
   <div className="bg-gray-900 text-gray-100">
-    <Nav />
     <section id="hero" className="pt-24 h-[700px]">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">

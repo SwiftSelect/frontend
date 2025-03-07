@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { Toaster } from "react-hot-toast";
 import Nav from "@/components/nav/nav";
-
 export const metadata: Metadata = {
   title: "SwiftSelect",
-  description: "Login/Signup",
+  description: "Recruiter Dashboard",
 };
 
-export default function LoginLayout({
+export default function RecruiterLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -18,6 +17,7 @@ export default function LoginLayout({
       	<Nav />
         <Toaster/>
         {children}
-    </>
+    </>   
+
   );
 }

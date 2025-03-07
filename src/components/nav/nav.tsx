@@ -15,17 +15,6 @@ const Nav = () => {
                 <i className="fa-solid fa-brain mr-2"></i>
                 SwiftSelect
                 </a>
-                <nav className="hidden md:flex space-x-6">
-                <span className="text-gray-300 hover:text-purple-500 cursor-pointer">
-                    Jobs
-                </span>
-                <span className="text-gray-300 hover:text-purple-500 cursor-pointer">
-                    Companies
-                </span>
-                <span className="text-gray-300 hover:text-purple-500 cursor-pointer">
-                    For Recruiters
-                </span>
-                </nav>
             </div>
             <SessionProvider>
                 <NavRight />
