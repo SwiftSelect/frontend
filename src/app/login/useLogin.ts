@@ -76,7 +76,7 @@ const useLogin = () => {
                     lastName: values.lastName,
                     email: values.email,
                     password: values.password,
-                    role: values.isRecruiter ? 1 : 2,
+                    role: values.isRecruiter ? 2 : 3,
                 });
 
                 const result = await signIn("credentials", {

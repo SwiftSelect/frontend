@@ -36,7 +36,7 @@ export default withAuth(
     if (pathname === '/recruiter' && !token?.isRecruiter) {
       return NextResponse.redirect(new URL('/candidate', req.url));
     }
-      if (pathname.startsWith('/candidate') && token?.isRecruiter) {
+      if (pathname === '/candidate' && token?.isRecruiter) {
       return NextResponse.redirect(new URL('/recruiter', req.url));
     }
 
@@ -44,7 +44,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token 
+      authorized: ({ token }) => true 
     },
   }
 ); 
