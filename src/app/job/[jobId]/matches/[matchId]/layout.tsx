@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import "../../globals.css";
+import "@/app/globals.css";
 import { Toaster } from "react-hot-toast";
 import Nav from "@/components/nav/nav";
 
 export const metadata: Metadata = {
   title: "SwiftSelect",
-  description: "Job Details",
+  description: "Candidate Match",
 };
 
-export default function JobDetails({
+export default function CandidateMatch({
   children,
 }: Readonly<{
   children: React.ReactNode;

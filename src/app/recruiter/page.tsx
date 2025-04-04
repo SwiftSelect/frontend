@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 export default function RecruiterPage() {
     return (
         <div className="bg-gray-900 text-gray-100">
@@ -6,10 +7,12 @@ export default function RecruiterPage() {
                 <div className="container mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold">Recruiter Dashboard</h1>
-                    <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center">
-                    <i className="fa-solid fa-plus mr-2"></i>
-                    Post New Job
-                    </button>
+                    <Link href={'/job/post'}>
+                        <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center">
+                        <i className="fa-solid fa-plus mr-2"></i>
+                        Post New Job
+                        </button>
+                    </Link>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div id="active-jobs" className="lg:col-span-2">
@@ -84,9 +87,11 @@ export default function RecruiterPage() {
                                 +9
                                 </span>
                             </div>
-                            <button className="text-purple-500 hover:text-purple-400">
-                                View Matches →
-                            </button>
+                            <Link href={`/job/${1}/matches/`}>
+                                <button className="text-purple-500 hover:text-purple-400">
+                                    View Matches →
+                                </button>
+                            </Link>
                             </div>
                         </div>
                         <div
