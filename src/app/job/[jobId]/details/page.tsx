@@ -1,6 +1,43 @@
 import Nav from "@/components/nav/nav";
+import jobsAPI  from "@/utils/axios/jobsApi";
 
-export default function JobDetailsPage() {
+type Props = {
+  params: {
+    jobId: string;
+  }
+}
+
+export default async function JobDetailsPage({params: { jobId } }: Props) {
+
+  const res = await jobsAPI.get(`/${jobId}`);
+  const job = {
+    createdAt: res.data.CreatedAt, // don't really need to extract this
+    updatedAt: res.data.UpdatedAt, // don't really need to extract this
+    title: res.data.Title,
+    description: res.data.Description,
+    company: "Engineering", // update jobs api to include company
+    requirements: res.data.Requirements,
+    location: res.data.Location,
+    status: res.data.Status,
+    postedDate: res.data.PostedDate,
+    salaryRange: "$120,000 - $160,000", // update jobs api to include salary range
+    // job api needs: benefits/perks, company info, job overview, experience
+  }
+
+  // get job status
+  const jobStatusLabels: Record<number, { label: string; colorClass: string }> = {
+    0: { label: "Active", colorClass: "bg-purple-500/20 text-purple-400" },
+    1: { label: "Closed", colorClass: "bg-red-500/20 text-red-400" },
+  };
+
+  const statusInfo = jobStatusLabels[job.status] || { label: "Unknown", colorClass: "bg-gray-500/20 text-gray-400" };
+
+  // format requirements for usage
+  const requirements: string[] = typeof job.requirements === "string"
+  ? job.requirements.split(",").map(req => req.trim()).filter(Boolean)
+  : [];
+  
+
   return (
     <div className="bg-gray-900 text-gray-100">
       <Nav />
@@ -13,13 +50,14 @@ export default function JobDetailsPage() {
                   <i className="fa-solid fa-arrow-left text-xl"></i>
                 </button>
                 <div>
-                  <h1 className="text-3xl font-bold">Senior Full Stack Developer</h1>
+                  <h1 className="text-3xl font-bold">{job.title}</h1>
                   <div className="flex items-center mt-2 text-gray-400">
-                    <span className="flex items-center"><i className="fa-solid fa-building mr-2"></i>Engineering</span>
+                    <span className="flex items-center"><i className="fa-solid fa-building mr-2"></i>{job.company}</span>
                     <span className="mx-3">•</span>
-                    <span className="flex items-center"><i className="fa-solid fa-location-dot mr-2"></i>Remote</span>
+                    <span className="flex items-center"><i className="fa-solid fa-location-dot mr-2"></i>{job.location}</span>
                     <span className="mx-3">•</span>
-                    <span className="flex items-center"><i className="fa-regular fa-clock mr-2"></i>Posted 2 days ago</span>
+                    {/* fix below posted "days" ago.. need to calculate */}
+                    <span className="flex items-center"><i className="fa-regular fa-clock mr-2"></i>Posted 2 days ago; Posted on: {job.postedDate}</span> 
                   </div>
                 </div>
               </div>
@@ -30,7 +68,7 @@ export default function JobDetailsPage() {
                 <div id="overview" className="bg-gray-800 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-semibold">Overview</h2>
-                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">Active</span>
+                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">{statusInfo.label}</span>
                   </div>
                   <p className="text-gray-300 leading-relaxed">We're looking for a Senior Full Stack Developer to join our growing team. You'll be working on cutting-edge projects using modern technologies and helping shape the future of our product.</p>
                 </div>
@@ -38,14 +76,15 @@ export default function JobDetailsPage() {
                 <div id="description" className="bg-gray-800 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-6">Job Description</h2>
                   <div className="space-y-4 text-gray-300">
-                    <p className="leading-relaxed">As a Senior Full Stack Developer, you will:</p>
+                    <p className="leading-relaxed">{job.description}</p>
+                    {/* <p className="leading-relaxed">As a Senior Full Stack Developer, you will:</p>
                     <ul className="list-disc pl-5 space-y-2">
                       <li>Design and implement scalable web applications</li>
                       <li>Lead technical architecture discussions and decisions</li>
                       <li>Mentor junior developers and conduct code reviews</li>
                       <li>Work closely with product and design teams</li>
                       <li>Optimize application performance and reliability</li>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
       
@@ -55,11 +94,19 @@ export default function JobDetailsPage() {
                     <div className="space-y-3">
                       <h3 className="text-purple-400 font-medium">Technical Skills</h3>
                       <div className="flex flex-wrap gap-2">
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">React</span>
+                        {requirements.map((req, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1.5 bg-gray-700 rounded-full text-sm"
+                          >
+                            {req}
+                          </span>
+                        ))}
+                        {/* <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">React</span>
                         <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">Node.js</span>
                         <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">TypeScript</span>
                         <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">AWS</span>
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">MongoDB</span>
+                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">MongoDB</span> */}
                       </div>
                     </div>
                     <div className="space-y-3">
