@@ -1,41 +1,17 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import Nav from "@/components/nav/nav";
-import jobsAPI  from "@/utils/axios/jobsApi";
+import useJobDetails from "./useJobDetails";
 
-type Props = {
-  params: {
-    jobId: string;
-  }
-}
+export default function JobDetailsPage() {
 
-export default async function JobDetailsPage({params: { jobId } }: Props) {
+  const { jobId } = useParams();
+  console.log(jobId);
+  const { job, loading, error } = useJobDetails(jobId as string);
 
-  const res = await jobsAPI.get(`/${jobId}`);
-  const job = {
-    createdAt: res.data.CreatedAt, // don't really need to extract this
-    updatedAt: res.data.UpdatedAt, // don't really need to extract this
-    title: res.data.Title,
-    description: res.data.Description,
-    company: "Engineering", // update jobs api to include company
-    requirements: res.data.Requirements,
-    location: res.data.Location,
-    status: res.data.Status,
-    postedDate: res.data.PostedDate,
-    salaryRange: "$120,000 - $160,000", // update jobs api to include salary range
-    // job api needs: benefits/perks, company info, job overview, experience
-  }
-
-  // get job status
-  const jobStatusLabels: Record<number, { label: string; colorClass: string }> = {
-    0: { label: "Active", colorClass: "bg-purple-500/20 text-purple-400" },
-    1: { label: "Closed", colorClass: "bg-red-500/20 text-red-400" },
-  };
-
-  const statusInfo = jobStatusLabels[job.status] || { label: "Unknown", colorClass: "bg-gray-500/20 text-gray-400" };
-
-  // format requirements for usage
-  const requirements: string[] = typeof job.requirements === "string"
-  ? job.requirements.split(",").map(req => req.trim()).filter(Boolean)
-  : [];
+  if (loading) return <p>Loading...</p>;
+  if (error || !job) return <p>{error || "Job not found"}</p>;
   
 
   return (
@@ -68,13 +44,13 @@ export default async function JobDetailsPage({params: { jobId } }: Props) {
                 <div id="overview" className="bg-gray-800 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-semibold">Overview</h2>
-                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">{statusInfo.label}</span>
+                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">{job.statusInfo.label}</span>
                   </div>
                   <p className="text-gray-300 leading-relaxed">We're looking for a Senior Full Stack Developer to join our growing team. You'll be working on cutting-edge projects using modern technologies and helping shape the future of our product.</p>
                 </div>
       
                 <div id="description" className="bg-gray-800 rounded-xl p-6">
-                  <h2 className="text-xl font-semibold mb-6">Job Description</h2>
+                  <h2 className="text-xl font-semibold mb-6">Job description</h2>
                   <div className="space-y-4 text-gray-300">
                     <p className="leading-relaxed">{job.description}</p>
                     {/* <p className="leading-relaxed">As a Senior Full Stack Developer, you will:</p>
@@ -89,14 +65,14 @@ export default async function JobDetailsPage({params: { jobId } }: Props) {
                 </div>
       
                 <div id="requirements" className="bg-gray-800 rounded-xl p-6">
-                  <h2 className="text-xl font-semibold mb-6">Requirements</h2>
+                  <h2 className="text-xl font-semibold mb-6">requirements</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <h3 className="text-purple-400 font-medium">Technical Skills</h3>
                       <div className="flex flex-wrap gap-2">
-                        {requirements.map((req, index) => (
+                        {job.requirements.map((req: string, i: number) => (
                           <span
-                            key={index}
+                            key={`${req}-${i}`}
                             className="px-3 py-1.5 bg-gray-700 rounded-full text-sm"
                           >
                             {req}
