@@ -7,7 +7,6 @@ import useJobDetails from "./useJobDetails";
 export default function JobDetailsPage() {
 
   const { jobId } = useParams();
-  console.log(jobId);
   const { job, loading, error } = useJobDetails(jobId as string);
 
   if (loading) return <p>Loading...</p>;
@@ -32,8 +31,7 @@ export default function JobDetailsPage() {
                     <span className="mx-3">•</span>
                     <span className="flex items-center"><i className="fa-solid fa-location-dot mr-2"></i>{job.location}</span>
                     <span className="mx-3">•</span>
-                    {/* fix below posted "days" ago.. need to calculate */}
-                    <span className="flex items-center"><i className="fa-regular fa-clock mr-2"></i>Posted 2 days ago; Posted on: {job.postedDate}</span> 
+                    <span className="flex items-center"><i className="fa-regular fa-clock mr-2"></i>Posted {job.daysPostedAgo} days ago</span> 
                   </div>
                 </div>
               </div>
@@ -53,24 +51,16 @@ export default function JobDetailsPage() {
                   <h2 className="text-xl font-semibold mb-6">Job description</h2>
                   <div className="space-y-4 text-gray-300">
                     <p className="leading-relaxed">{job.description}</p>
-                    {/* <p className="leading-relaxed">As a Senior Full Stack Developer, you will:</p>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li>Design and implement scalable web applications</li>
-                      <li>Lead technical architecture discussions and decisions</li>
-                      <li>Mentor junior developers and conduct code reviews</li>
-                      <li>Work closely with product and design teams</li>
-                      <li>Optimize application performance and reliability</li>
-                    </ul> */}
                   </div>
                 </div>
       
                 <div id="requirements" className="bg-gray-800 rounded-xl p-6">
-                  <h2 className="text-xl font-semibold mb-6">requirements</h2>
+                  <h2 className="text-xl font-semibold mb-6">Requirements</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <h3 className="text-purple-400 font-medium">Technical Skills</h3>
                       <div className="flex flex-wrap gap-2">
-                        {job.requirements.map((req: string, i: number) => (
+                        {job.skills.map((req: string, i: number) => (
                           <span
                             key={`${req}-${i}`}
                             className="px-3 py-1.5 bg-gray-700 rounded-full text-sm"
@@ -78,19 +68,17 @@ export default function JobDetailsPage() {
                             {req}
                           </span>
                         ))}
-                        {/* <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">React</span>
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">Node.js</span>
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">TypeScript</span>
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">AWS</span>
-                        <span className="px-3 py-1.5 bg-gray-700 rounded-full text-sm">MongoDB</span> */}
                       </div>
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-purple-400 font-medium">Experience</h3>
                       <ul className="space-y-2 text-gray-300">
-                        <li className="flex items-center"><i className="fa-solid fa-check text-purple-500 mr-2"></i>5+ years in full stack development</li>
-                        <li className="flex items-center"><i className="fa-solid fa-check text-purple-500 mr-2"></i>3+ years with React ecosystem</li>
-                        <li className="flex items-center"><i className="fa-solid fa-check text-purple-500 mr-2"></i>Team leadership experience</li>
+                        {job.experience.map((req: string, i: number) => (
+                          <li key={`${req}-${i}`} className="flex items-center">
+                            <i className="fa-solid fa-check text-purple-500 mr-2"></i>
+                            {req}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -103,7 +91,7 @@ export default function JobDetailsPage() {
                     <div className="flex items-center justify-between pb-4 border-b border-gray-700">
                       <div>
                         <p className="text-sm text-gray-400">Salary Range</p>
-                        <p className="text-xl font-semibold">$120,000 - $160,000</p>
+                        <p className="text-xl font-semibold">{job.salaryRange}</p>
                       </div>
                       <i className="fa-solid fa-money-bill-wave text-2xl text-purple-500"></i>
                     </div>
@@ -147,7 +135,7 @@ export default function JobDetailsPage() {
                   <div className="flex items-center space-x-4 mb-4">
                     <img className="w-16 h-16 rounded-xl" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5d58064a24-427161b4c0a17740458a.png" alt="modern tech company logo with purple and dark theme" />
                     <div>
-                      <h3 className="font-medium">TalentAI Inc.</h3>
+                      <h3 className="font-medium">{job.company}</h3>
                       <p className="text-sm text-gray-400">Technology • 501-1000 employees</p>
                     </div>
                   </div>

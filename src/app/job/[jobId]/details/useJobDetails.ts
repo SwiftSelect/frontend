@@ -8,14 +8,18 @@ type JobStatusInfo = {
 
 type JobDetails = {
   title: string;
+  overview: string;
   description: string;
   company: string;
-  requirements: string[];
+  skills: string[];
+  experience: string[];
   location: string;
   status: number;
   postedDate: string;
   salaryRange: string;
   statusInfo: JobStatusInfo;
+  daysPostedAgo: number;
+  benefitsAndPerks: string[];
 };
 
 const jobstatusLabels: Record<number, JobStatusInfo> = {
@@ -34,10 +38,20 @@ const useJobDetails = (jobId: string) => {
         const res = await jobsAPI.get(`/${jobId}`);
         const data = res.data;
 
-        const requirements: string[] = typeof data.requirements === "string"
-          ? data.requirements.split(",").map((req: string) => req.trim()).filter(Boolean)
+        console.log("data", data);
+        const skills: string[] = typeof data.skills === "string"
+          ? data.skills.split(",").map((req: string) => req.trim()).filter(Boolean)
+          : [];
+        
+        console.log("skills", skills);
+
+        const experience: string[] = typeof data.experience === "string"
+          ? data.experience.split(",").map((req: string) => req.trim()).filter(Boolean)
           : [];
 
+        const benefitsAndPerks: string[] = typeof data.benefitsAndPerks === "string"
+          ? data.benefitsAndPerks.split(",").map((req: string) => req.trim()).filter(Boolean)
+          : [];
         const statusInfo = jobstatusLabels[data.status] || {
           label: "Unknown",
           colorClass: "bg-gray-500/20 text-gray-400",
@@ -45,14 +59,18 @@ const useJobDetails = (jobId: string) => {
 
         const jobDetails: JobDetails = {
           title: data.title,
+          overview: data.overview,
           description: data.description,
-          company: "Engineering", // TODO: update this
-          requirements,
+          company: data.company,
+          skills,
+          experience,
           location: data.location,
           status: data.status,
           postedDate: data.postedDate,
-          salaryRange: "$120,000 - $160,000", // TODO: update this 
+          salaryRange: data.salaryRange,
           statusInfo,
+          daysPostedAgo: data.daysPostedAgo,
+          benefitsAndPerks,
         };
 
         setJob(jobDetails);
