@@ -5,10 +5,10 @@ import Nav from "@/components/nav/nav";
 
 export const metadata: Metadata = {
   title: "SwiftSelect",
-  description: "Candidate Profile",
+  description: "Profile",
 };
 
-export default function CandidateProfileLayout({
+export default function ProfileLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

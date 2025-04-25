@@ -1,4 +1,4 @@
-import api from '..';
+import createAPI from '..';
 
 interface LoginRequest {
     email: string;
@@ -17,6 +17,8 @@ interface AuthResponse {
     access_token: string;
     refresh_token: string;
 }
+
+const api = createAPI(process.env.NEXT_PUBLIC_AUTH_URL || "");
 
 const authService = {
     login: async (credentials: LoginRequest) => {
