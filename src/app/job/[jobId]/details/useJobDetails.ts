@@ -38,13 +38,10 @@ const useJobDetails = (jobId: string) => {
         const res = await jobsAPI.get(`/${jobId}`);
         const data = res.data;
 
-        console.log("data", data);
         const skills: string[] = typeof data.skills === "string"
           ? data.skills.split(",").map((req: string) => req.trim()).filter(Boolean)
           : [];
         
-        console.log("skills", skills);
-
         const experience: string[] = typeof data.experience === "string"
           ? data.experience.split(",").map((req: string) => req.trim()).filter(Boolean)
           : [];
