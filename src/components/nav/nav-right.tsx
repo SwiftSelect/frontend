@@ -27,12 +27,13 @@ const NavRight = () => {
                             <span className="absolute -top-1 -right-1 bg-purple-500 text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
                         </IconButton>
                     </div> */}
-                    <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" width={40} height={40} className="w-8 h-8 rounded-full border-2 border-purple-500" alt="Profile" />
+                    <Link href={"/profile"}>
+                        <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" width={40} height={40} className="w-8 h-8 rounded-full border-2 border-purple-500" alt="Profile" />
+                    </Link>
                 </div>
             )
         }
-        return 
-        (<Link href="/login">
+        return (<Link href="/login">
             <div className="flex items-center space-x-4">
                 <PrimaryButton> Login </PrimaryButton>
             </div>
