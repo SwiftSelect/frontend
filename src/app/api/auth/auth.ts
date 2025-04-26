@@ -1,4 +1,3 @@
-import { access } from 'fs';
 import createAPI from '..';
 
 interface LoginRequest {
