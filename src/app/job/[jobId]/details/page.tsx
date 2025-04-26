@@ -3,14 +3,19 @@
 import { useParams } from "next/navigation";
 import Nav from "@/components/nav/nav";
 import useJobDetails from "./useJobDetails";
+import useCompanyDetails from "./useCompanyDetails";
 
 export default function JobDetailsPage() {
 
   const { jobId } = useParams();
   const { job, loading, error } = useJobDetails(jobId as string);
+  const { company, loading: companyLoading, error: companyError } = useCompanyDetails();
 
   if (loading) return <p>Loading...</p>;
   if (error || !job) return <p>{error || "Job not found"}</p>;
+
+  if (companyLoading) return <p>Loading company details...</p>;
+  if (companyError || !company) return <p>{companyError || "Company not found"}</p>;
   
 
   return (
@@ -27,7 +32,7 @@ export default function JobDetailsPage() {
                 <div>
                   <h1 className="text-3xl font-bold">{job.title}</h1>
                   <div className="flex items-center mt-2 text-gray-400">
-                    <span className="flex items-center"><i className="fa-solid fa-building mr-2"></i>{job.company}</span>
+                    <span className="flex items-center"><i className="fa-solid fa-building mr-2"></i>{company.companyName}</span>
                     <span className="mx-3">•</span>
                     <span className="flex items-center"><i className="fa-solid fa-location-dot mr-2"></i>{job.location}</span>
                     <span className="mx-3">•</span>
@@ -135,11 +140,11 @@ export default function JobDetailsPage() {
                   <div className="flex items-center space-x-4 mb-4">
                     <img className="w-16 h-16 rounded-xl" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5d58064a24-427161b4c0a17740458a.png" alt="modern tech company logo with purple and dark theme" />
                     <div>
-                      <h3 className="font-medium">{job.company}</h3>
-                      <p className="text-sm text-gray-400">Technology • 501-1000 employees</p>
+                      <h3 className="font-medium">{company.companyName}</h3>
+                      <p className="text-sm text-gray-400">{company.companyIndustry} • {company.companySize}</p>
                     </div>
                   </div>
-                  <p className="text-gray-300 text-sm">Leading AI-powered recruitment platform helping companies hire better talent faster.</p>
+                  <p className="text-gray-300 text-sm">{company.companyDescription}</p>
                 </div>
               </div>
             </div>

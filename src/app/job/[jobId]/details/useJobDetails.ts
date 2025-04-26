@@ -1,42 +1,17 @@
 import { useEffect, useState } from "react";
-import jobsAPI from "@/app/api/job/jobsApi"; 
-
-type JobStatusInfo = {
-  label: string;
-  colorClass: string;
-};
-
-type JobDetails = {
-  title: string;
-  overview: string;
-  description: string;
-  company: string;
-  skills: string[];
-  experience: string[];
-  location: string;
-  status: number;
-  postedDate: string;
-  salaryRange: string;
-  statusInfo: JobStatusInfo;
-  daysPostedAgo: number;
-  benefitsAndPerks: string[];
-};
-
-const jobstatusLabels: Record<number, JobStatusInfo> = {
-  0: { label: "Active", colorClass: "bg-purple-500/20 text-purple-400" },
-  1: { label: "Closed", colorClass: "bg-red-500/20 text-red-400" },
-};
+import jobsService from "@/app/api/job/jobsApi";
+import { JobDetailsUI, jobStatusLabels } from "@/app/api/job/types";
 
 const useJobDetails = (jobId: string) => {
-  const [job, setJob] = useState<JobDetails | null>(null);
+  const [job, setJob] = useState<JobDetailsUI | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    
     const fetchJob = async () => {
       try {
-        const res = await jobsAPI.get(`/${jobId}`);
-        const data = res.data;
+        const data = await jobsService.getJobDetails(jobId);
 
         const skills: string[] = typeof data.skills === "string"
           ? data.skills.split(",").map((req: string) => req.trim()).filter(Boolean)
@@ -49,16 +24,19 @@ const useJobDetails = (jobId: string) => {
         const benefitsAndPerks: string[] = typeof data.benefitsAndPerks === "string"
           ? data.benefitsAndPerks.split(",").map((req: string) => req.trim()).filter(Boolean)
           : [];
-        const statusInfo = jobstatusLabels[data.status] || {
+        const statusInfo = jobStatusLabels[data.status] || {
           label: "Unknown",
           colorClass: "bg-gray-500/20 text-gray-400",
         };
 
-        const jobDetails: JobDetails = {
+        const jobDetails: JobDetailsUI = {
           title: data.title,
           overview: data.overview,
           description: data.description,
           company: data.company,
+          // companyDescription: data.companyDescription,
+          // size: data.size,
+          // industry: data.industry,
           skills,
           experience,
           location: data.location,
