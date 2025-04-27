@@ -3,7 +3,6 @@ import "./globals.css";
 import Script from "next/script";
 import { inter } from "./fonts/inter";
 import Nav from "@/components/nav/nav";
-import SessionProviderWrapper from "@/components/session/SessionProviderWrapper";
 export const metadata: Metadata = {
   title: "SwiftSelect",
   description: "An AI powered Recruitment",
@@ -27,10 +26,8 @@ export default function RootLayout({
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" strategy="afterInteractive" />
       </head>
       <body>
-        <SessionProviderWrapper>
           <Nav />
           {children}
-        </SessionProviderWrapper>
       </body>
     </html>
   );

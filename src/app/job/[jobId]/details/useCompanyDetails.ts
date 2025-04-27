@@ -14,10 +14,7 @@ const useCompanyDetails = () => {
   useEffect(() => {
     const fetchCompany = async () => {
       try {
-        if (!session || !session.accessToken) {
-          throw new Error("Unauthorized access");
-        }
-        const userData = await authService.getUserOrgDetails(session.accessToken);
+        const userData = await authService.getUserOrgDetails();
         if (!userData.role_id || userData.role_id !== 2) {
           throw new Error("Unauthorized access");
         }

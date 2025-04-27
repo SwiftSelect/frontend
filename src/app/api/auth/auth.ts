@@ -47,12 +47,8 @@ const authService = {
         return data;
     },
 
-    getUserOrgDetails: async (access_token: string) => {
-        const { data } = await api.get<UserResponse>('/auth/get_user', {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-        });
+    getUserOrgDetails: async () => {
+        const { data } = await api.get<UserResponse>('/auth/get_user');
         return data;
     },
 };
