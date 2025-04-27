@@ -26,8 +26,8 @@ export default function RootLayout({
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" strategy="afterInteractive" />
       </head>
       <body>
-        <Nav />
-        {children}
+          <Nav />
+          {children}
       </body>
     </html>
   );
