@@ -1,8 +1,7 @@
 import { CandidateProfile, Demographics, Links } from '@/app/profile/useProfile';
 import createAPI from '..';
 
-
-interface GetProfileResponse { 
+export interface GetProfileResponse { 
     current_position?: string,
     location?: string,
     resume_url?: string,
@@ -10,10 +9,12 @@ interface GetProfileResponse {
     demographics?: Demographics,
     links?: Links;
 }
+
 interface AuthResponse {
     access_token: string;
     refresh_token: string;
 }
+
 interface SignedURLResponse {
     signed_url: string,
     file_path: string
@@ -24,6 +25,11 @@ const api = createAPI(process.env.NEXT_PUBLIC_PROFILE_URL || "");
 const profileService = {
     getProfile: async () => {
         const { data } = await api.get<GetProfileResponse>(`/profile/`);
+        return data;
+    },
+
+    getProfileById: async (id: string) => {
+        const { data } = await api.get<GetProfileResponse>(`/profile/${id}`);
         return data;
     },
 
