@@ -32,14 +32,16 @@ const handler = NextAuth({
                 const payload = JSON.parse(atob(tokenParts[1]));
                 
                 // Return user object with token information
+                console.log('PAYLOAD',payload);
                 return {
-                  id: payload.email, // Using email as ID since that's what we have
-                  email: payload.email,
-                  name: payload.fullname || payload.email,
-                  role: payload.role,
-                  isRecruiter: payload.role === 'RECRUITER',
-                  accessToken: response.access_token,
-                  refreshToken: response.refresh_token
+                    id: payload.email, // Using email as ID since that's what we have
+                    email: payload.email,
+                    role: payload.role,
+                    isRecruiter: payload.role === 'RECRUITER',
+                    accessToken: response.access_token,
+                    refreshToken: response.refresh_token,
+                    firstName: payload.firstname,
+                    lastName: payload.lastname
                 };
               } catch (e) {
                 console.error("Failed to parse token:", e);
@@ -76,6 +78,8 @@ const handler = NextAuth({
         token.isRecruiter = user.isRecruiter;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
       }
       return token;
     },
@@ -88,6 +92,8 @@ const handler = NextAuth({
         session.user.email = token.email;
         session.accessToken = token.accessToken;
         session.refreshToken = token.refreshToken;
+        session.user.firstName = token.firstName;
+        session.user.lastName = token.lastName;
       }
       return session;
     }

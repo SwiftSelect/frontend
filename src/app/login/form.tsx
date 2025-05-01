@@ -209,12 +209,12 @@ const LoginForm = () => {
 		  <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
 			<i className="fa-brands fa-google text-xl"></i>
 		  </button>
-		  <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+		  {/* <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
 			<i className="fa-brands fa-linkedin text-xl"></i>
 		  </button>
 		  <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
 			<i className="fa-brands fa-github text-xl"></i>
-		  </button>
+		  </button> */}
 		</div>
 	  </div>
 	</div>

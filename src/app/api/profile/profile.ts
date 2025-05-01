@@ -8,6 +8,7 @@ export interface GetProfileResponse {
     skills?: string[],
     demographics?: Demographics,
     links?: Links;
+    phone?: string;
 }
 
 interface AuthResponse {

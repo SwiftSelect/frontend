@@ -1,3 +1,4 @@
+'use client';
 import useProfile  from "./useProfile";
 import ResumeComponent from "./resume";
 import SkillsComponent from "./skills";
@@ -50,6 +51,20 @@ const ProfileForm = () => {
                             {profileFormik.touched.location && profileFormik.errors.location}
                         </div>
                     </div>
+                    <div>
+                        <label className="block text-gray-400 mb-2">Phone</label>
+                        <input
+                            name="phone"
+                            type="tel"
+                            onChange={profileFormik.handleChange}
+                            onBlur={profileFormik.handleBlur}
+                            value={profileFormik.values.phone}
+                            className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                        <div className="text-red-500 text-sm mt-1">
+                            {profileFormik.touched.phone && profileFormik.errors.phone}
+                        </div>
+                    </div>
                 </div>
             </div>
             {!isRecruiter && (
@@ -62,16 +77,19 @@ const ProfileForm = () => {
                         skills={profileFormik.values.skills}
                         onAdd={addSkill}
                         onRemove={removeSkill}
+                        profileFormik={profileFormik}
                     />
                     <LinksComponent 
                         values={profileFormik.values.links}
                         onChange={(field: string, value: string) => profileFormik.setFieldValue(`links.${field}`, value)}
+                        profileFormik={profileFormik}
                     />
                     <DemographicsComponent 
                         values={profileFormik.values.demographics}
                         onChange={(field: string, value: string) => 
                             profileFormik.setFieldValue(`demographics.${field}`, value)
                         }
+                        profileFormik={profileFormik}
                     />
                 </>
             )}
@@ -85,7 +103,7 @@ const ProfileForm = () => {
                     </button>
                     <button 
                         type="submit"
-                        disabled={profileFormik.isSubmitting || !profileFormik.isValid}
+                        disabled={!profileFormik.touched || profileFormik.isSubmitting || !profileFormik.isValid}
                         className="px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg disabled:opacity-50"
                     >
                         Save Changes
