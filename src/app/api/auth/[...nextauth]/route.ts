@@ -34,7 +34,7 @@ const handler = NextAuth({
                 // Return user object with token information
                 console.log('PAYLOAD',payload);
                 return {
-                    id: payload.email, // Using email as ID since that's what we have
+                    id: payload.id, // Using email as ID since that's what we have
                     email: payload.email,
                     role: payload.role,
                     isRecruiter: payload.role === 'RECRUITER',

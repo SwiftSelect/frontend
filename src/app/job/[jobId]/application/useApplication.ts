@@ -104,7 +104,7 @@ const useApplication = () => {
             try {
                 const application: ApplicationRequest = {
                     jobId: jobId,
-                    candidateId: session?.user?.id || '',
+                    candidateId: Number(session?.user?.id),
                     location: values.currentLocation,
                     resumeUrl: values.resume,
                     skills: values.skills || [],

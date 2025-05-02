@@ -16,7 +16,7 @@ export interface Application {
 
 export interface ApplicationRequest{ 
     jobId: string;
-    candidateId: string;
+    candidateId: number;
     phone: string,
     resumeUrl: string,
     links: Links,
