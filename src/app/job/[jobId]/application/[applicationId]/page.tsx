@@ -14,17 +14,17 @@ const isValidInteger = (id: string): boolean => {
 export default function CandidateApplication() {
   const params = useParams();
   const router = useRouter();
-  const { jobId, applicationId: candidateId } = params;
+  const { jobId, applicationId } = params;
 
-  useEffect(() => {
-    if (!isValidInteger(candidateId as string)) {
-      console.error('Invalid candidate ID format. Expected a numeric ID');
-    }
-  }, [candidateId]);
+  // useEffect(() => {
+  //   if (!isValidInteger(candidateId as string)) {
+  //     console.error('Invalid candidate ID format. Expected a numeric ID');
+  //   }
+  // }, [candidateId]);
 
   const { application, job, candidate, loading, error, errorDetails } = useApplicationData(
     jobId as string,
-    candidateId as string
+    applicationId as string
   );
 
   if (loading) {
@@ -57,8 +57,8 @@ export default function CandidateApplication() {
               </div>
             )}
             <p className="text-sm text-gray-400">Job ID: {jobId}</p>
-            <p className="text-sm text-gray-400">Candidate ID: {candidateId}</p>
-            {!isValidInteger(candidateId as string) && (
+            <p className="text-sm text-gray-400">Candidate ID: {application?.candidateId}</p>
+            {!isValidInteger(application?.candidateId as string) && (
               <p className="text-yellow-500">Warning: The candidate ID must be a numeric value</p>
             )}
           </div>
