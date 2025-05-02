@@ -175,8 +175,8 @@ export default function JobApplicationForm() {
                     <label className="block text-gray-400 mb-2">Portfolio Website</label>
                     <input
                       type="url"
-                      name="links.portfolio"
-                      value={formik.values.links?.portfolio || ''}
+                      name="links.website"
+                      value={formik.values.links?.website || ''}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"

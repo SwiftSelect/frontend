@@ -9,6 +9,7 @@ import applicationService from "@/app/api/applications/applications";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { ApplicationRequest } from "@/app/api/applications/types";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 
 export const applicationSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -16,7 +17,11 @@ export const applicationSchema = z.object({
     email: z.string().email("Invalid email address"),
     phone: z.string().refine((val) => /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/.test(val), { message: 'Invalid phone number'}),
     resume: z.string().min(1, "Resume is required"),
-    links: z.record(z.string()).optional(),
+    links: z.object({
+        linkedin: z.string().optional(),
+        github: z.string().optional(),
+        website: z.string().optional(),
+    }).optional(),
     coverLetter: z.string().optional(),
     currentLocation: z.string().min(1, "Location is required"),
     skills: z.array(z.string()).optional(),
@@ -66,7 +71,9 @@ const useApplication = () => {
             firstName: session?.user?.firstName || '',
             lastName: session?.user?.lastName || '',
             email: session?.user?.email || '',
-            currentLocation: resp.location || ''
+            currentLocation: resp.location || '',
+            skills: resp.skills || [],
+            demographics: resp.demographics || {},
         });
     } catch (error) {
         console.error(error);
@@ -92,7 +99,7 @@ const useApplication = () => {
             demographics: application.demographics || {},
         },
         enableReinitialize: true,
-        validationSchema: applicationSchema,
+        validationSchema: toFormikValidationSchema(applicationSchema),
         onSubmit: async (values) => {
             try {
                 const application: ApplicationRequest = {
