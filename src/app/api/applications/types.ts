@@ -1,3 +1,5 @@
+import { Demographics, Links } from "@/app/profile/useProfile";
+
 export interface Application {
   _id: string;
   applicationId: string;
@@ -11,3 +13,20 @@ export interface Application {
   email: string;
   phone: string;
 } 
+
+export interface ApplicationRequest{ 
+    jobId: string;
+    candidateId: string;
+    phone: string,
+    resumeUrl: string,
+    links: Links,
+    email: string,
+    location: string,
+    coverLetter: string,
+    skills: string[],
+    demographics: Demographics,
+}
+
+export interface ApplicationResponse {
+    applicationId: string;
+}

@@ -5,9 +5,10 @@ import { useSession } from "next-auth/react";
 import { z } from "zod";
 import { useFormik } from "formik";
 import { useParams } from "next/navigation";
-import applicationService, { ApplicationRequest } from "@/app/api/application/application";
+import applicationService from "@/app/api/applications/applications";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { ApplicationRequest } from "@/app/api/applications/types";
 
 export const applicationSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
