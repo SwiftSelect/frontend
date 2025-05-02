@@ -31,7 +31,7 @@ interface ApplicationData {
   };
 }
 
-export const useApplicationData = (jobId: string, candidateId: string) => {
+export const useApplicationData = (jobId: string, applicationId: string) => {
   const [data, setData] = useState<ApplicationData>({
     application: null,
     job: null,
@@ -48,7 +48,8 @@ export const useApplicationData = (jobId: string, candidateId: string) => {
         // console.log('Job data fetched successfully:', job);
 
         // console.log('Fetching application data for jobId:', jobId, 'candidateId:', candidateId);
-        const application = await applicationsService.getApplicationByCandidateId(jobId, candidateId);
+        // const application = await applicationsService.getApplicationByCandidateId(jobId, candidateId);
+        const application = await applicationsService.getApplicationByApplicationId(applicationId);
         // console.log('Application data fetched successfully:', application);
 
         // console.log('Fetching candidate data for candidateId:', application.candidateId);
@@ -82,7 +83,7 @@ export const useApplicationData = (jobId: string, candidateId: string) => {
     };
 
     fetchData();
-  }, [jobId, candidateId]);
+  }, [jobId, applicationId]);
 
   return data;
 }; 

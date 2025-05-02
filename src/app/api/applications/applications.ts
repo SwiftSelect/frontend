@@ -19,6 +19,29 @@ const applicationsService = {
     }
   },
 
+  getApplicationByApplicationId: async (applicationId: string) => {
+    try {
+      console.log('Getting application by application ID:', applicationId);
+      const { data } = await api.get<Application>(`/applications/${applicationId}`);
+      if (!data) {
+        throw new Error(`Application with ID ${applicationId} not found`);
+      }
+
+      // Verify the application belongs to the specified job
+    //   if (data.jobId !== jobId) {
+    //     console.log('Application job ID:', data.jobId);
+    //     console.log('Specified job ID:', jobId);
+    //     throw new Error(`Application for candidate ${data.candidateId} does not belong to job ${jobId}`);
+    //   }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in getApplicationByApplicationId:', error);
+      throw error;
+    }
+  },
+
+
   getApplicationByCandidateId: async (jobId: string, candidateId: string) => {
     try {
       console.log('Getting application by candidate ID:', { jobId, candidateId });
