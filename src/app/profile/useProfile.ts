@@ -9,6 +9,7 @@ import { useEffect } from "react";
 export type CandidateProfile =  {
     currentPosition?: string,
     location?: string,
+    phone?: string,
     resume?: string,
     skills?: string[],
     demographics? : Demographics,
@@ -39,6 +40,7 @@ const useProfile = () => {
     const initialValues: CandidateProfile = {
         currentPosition: "",
         location: "",
+        phone: "",
         ...((!session?.user?.isRecruiter) && {
             resume: "",
             skills: [],
@@ -73,6 +75,7 @@ const useProfile = () => {
                 skills: resp.skills,
                 demographics: resp.demographics,
                 links: resp.links,
+                phone: resp.phone,
             }
             profileFormik.setValues(mappedValues);
         } catch(error){
@@ -83,13 +86,21 @@ const useProfile = () => {
     const profileSchema = z.object({
         currentPosition: z.string().min(2, "Position is required"),
         location: z.string().min(2, "Location is required"),
+        phone: z.string().refine((val) => /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/.test(val), { message: 'Invalid phone number'})
     });
 
     const candidateSchema = z.object({
         resume: z.any(),
-        skills: z.array(z.string()),
-        demographics: z.object({}),
-        links: z.object({})
+        skills: z.string().array().min(5, "Minimum of 5 skills are required"),
+        demographics: z.object({
+            authorization: z.string().min(2, "Work authorization is required"),
+        }),
+        links: z.object({
+            linkedin: z.string().refine(
+                (val) => /(https?:\/\/(www.)|(www.))?linkedin.com\/(mwlite\/|m\/)?in\/[a-zA-Z0-9_.-]+\/?/.test(val),
+                { message: 'Invalid Linkedin url' }
+            ),
+        })
     });
 
 
@@ -109,6 +120,7 @@ const useProfile = () => {
                 const mappedValues = {
                     current_position: values.currentPosition,
                     location: values.location,
+                    phone: values.phone,
                     resume_url: values.resume, 
                     skills: values.skills,
                     demographics: values.demographics,

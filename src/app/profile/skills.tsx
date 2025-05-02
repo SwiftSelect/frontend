@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from "react";
-import { onAddOrRemove } from "./useProfile";
+import { CandidateProfile, onAddOrRemove } from "./useProfile";
+import { FormikProps } from "formik";
 
-const SkillsComponent = ({skills, onAdd, onRemove}: SkillsComponentProps) => {
+const SkillsComponent = ({skills, onAdd, onRemove, profileFormik}: SkillsComponentProps) => {
     const [skill, setSkill] = useState<string>('');
     return(
         <div className="mb-8">
@@ -20,21 +21,26 @@ const SkillsComponent = ({skills, onAdd, onRemove}: SkillsComponentProps) => {
                     type="text"
                     name="skills"
                     value={skill}
+                    onBlur={profileFormik.handleBlur}
                     placeholder="Add a skill"
                     className="flex-1 px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                     onChange={(e) => setSkill(e?.target?.value)}
                 />
-                <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">
-                    <i onClick={() => onAdd(skill)} className="fa-solid fa-plus"></i>
+                <button type="button" onClick={() => { onAdd(skill); setSkill('')}} className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">
+                    <i className="fa-solid fa-plus"></i>
                 </button>
+            </div>
+            <div className="text-red-500 text-sm mt-1">
+                    {profileFormik.touched.skills && profileFormik.errors.skills}
             </div>
         </div>
     );
 }
 
-interface SkillsComponentProps {
-    skills: string[] | undefined
-    onAdd: onAddOrRemove
-    onRemove: onAddOrRemove
+type SkillsComponentProps = {
+    skills: string[] | undefined;
+    onAdd: onAddOrRemove;
+    onRemove: onAddOrRemove;
+    profileFormik: FormikProps<CandidateProfile>
 }
 export default SkillsComponent;
