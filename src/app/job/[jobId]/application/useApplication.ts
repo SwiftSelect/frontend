@@ -19,7 +19,7 @@ export const applicationSchema = z.object({
     links: z.record(z.string()).optional(),
     coverLetter: z.string().optional(),
     currentLocation: z.string().min(1, "Location is required"),
-    skills: z.array(z.string()).min(1, "Skills are required"),
+    skills: z.array(z.string()).optional(),
     demographics: z.object({}).optional(),
 });
 
@@ -100,7 +100,7 @@ const useApplication = () => {
                     candidateId: session?.user?.id || '',
                     location: values.currentLocation,
                     resumeUrl: values.resume,
-                    skills: values.skills,
+                    skills: values.skills || [],
                     links: values.links || {},
                     phone: values.phone,
                     email: values.email,

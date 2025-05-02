@@ -66,12 +66,12 @@ const applicationsService = {
         }
     },
     getApplication: async (applicationId: string) => {
-        const { data } = await api.get<Application>(`/application/${applicationId}`);
+        const { data } = await api.get<Application>(`/applications/${applicationId}`);
         return data;
     },
 
     createApplication: async (application: ApplicationRequest) => {
-        const { data } = await api.post<ApplicationResponse>('/application/', application);
+        const { data } = await api.post<ApplicationResponse>('/applications/', application);
         return data;
     },
 };
