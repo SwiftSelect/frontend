@@ -71,7 +71,7 @@ const applicationsService = {
     },
 
     createApplication: async (application: ApplicationRequest) => {
-        const { data } = await api.post<ApplicationResponse>('/applications/', application);
+        const { data } = await api.post<ApplicationResponse>('/applications', application);
         return data;
     },
 };
