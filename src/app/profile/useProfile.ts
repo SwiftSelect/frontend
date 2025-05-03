@@ -23,12 +23,12 @@ export type Links = {
 }
 
 export type Demographics = {
-    authorization?: string,
-    gender?: string,
-    isHispanic?: string,
-    ethnicity?: string,
-    disability?: string,
-    veteran?: string
+    authorization?: string;
+    gender?: string;
+    is_hispanic?: string;
+    ethnicity?: string;
+    disability?: string;
+    veteran?: string;
 }
 
 export type onChange = (name: string, value: string) => void;
@@ -47,7 +47,7 @@ const useProfile = () => {
             demographics: {
                 authorization: "",
                 gender: "",
-                isHispanic: "",
+                is_hispanic: "",
                 ethnicity: "", 
                 disability: "", 
                 veteran: "",

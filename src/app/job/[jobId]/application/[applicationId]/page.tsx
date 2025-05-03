@@ -21,11 +21,12 @@ export default function CandidateApplication() {
     currentFile: application?.resumeUrl 
   });
 
-  console.log('Application data:', application);
-  console.log('Application status:', application?.status);
-  console.log('Last updated:', application?.status?.last_updated);
-  console.log('Current stage:', application?.status?.current_stage);
+  // console.log('Application data:', application);
+  // console.log('Application status:', application?.status);
+  // console.log('Last updated:', application?.status?.last_updated);
+  // console.log('Current stage:', application?.status?.current_stage);
 
+  
   if (loading) {
     return (
       <div className="bg-gray-900 text-gray-100 min-h-screen">
@@ -79,8 +80,8 @@ export default function CandidateApplication() {
               <div className="flex items-center">
                 <Image width={40} height={40} src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" className="w-20 h-20 rounded-full mr-4" alt="Candidate" />
                 <div>
-                  <h1 className="text-3xl font-bold">{candidate.current_position || 'Candidate'}</h1>
-                  <p className="text-gray-400">Application for {job.title}</p>
+                  <h1 className="text-3xl font-bold">{candidate.current_position}</h1>
+                  <p className="text-gray-400">Application for TODO: PULL CANDIDATE NAME</p>
                 </div>
               </div>
             </div>
@@ -101,24 +102,7 @@ export default function CandidateApplication() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div id="main-content" className="lg:col-span-2 space-y-6">
-              {/* <div id="profile-summary" className="bg-gray-800 rounded-xl p-6">
-                <h2 className="text-xl font-semibold mb-4">Professional Summary</h2>
-                <p className="text-gray-300 leading-relaxed">{job.overview}</p>
-              </div> */}
-
-              <div id="skills-section" className="bg-gray-800 rounded-xl p-6">
-                <h2 className="text-xl font-semibold mb-4">Technical Skills</h2>
-                <div className="flex flex-wrap gap-3">
-                  {candidate.skills && candidate.skills.map((skill, index) => (
-                    <div key={index} className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 rounded-lg">
-                      <i className="fa-solid fa-check text-green-400 text-sm"></i>
-                      <span className="text-sm">{skill}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div id="experience-section" className="bg-gray-800 rounded-xl p-6">
+              <div id="job-details" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Job Details</h2>
                 <div className="space-y-4">
                   <div>
@@ -139,32 +123,122 @@ export default function CandidateApplication() {
                   </div>
                 </div>
               </div>
+
+              <div id="skills-section" className="bg-gray-800 rounded-xl p-6">
+                <h2 className="text-xl font-semibold mb-4">Technical Skills</h2>
+                <div className="flex flex-wrap gap-3">
+                  {candidate.skills && candidate.skills.map((skill, index) => (
+                    <div key={index} className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 rounded-lg">
+                      <i className="fa-solid fa-check text-green-400 text-sm"></i>
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {application.links && (
+                  <div id="links-section" className="bg-gray-800 rounded-xl p-6">
+                    <h2 className="text-xl font-semibold mb-4">Links</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="text-gray-400 text-sm">LinkedIn</h3>
+                        {application.links.linked_in ? (
+                          <a 
+                            href={application.links.linked_in} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-purple-400 hover:text-purple-300"
+                          >
+                            {application.links.linked_in}
+                          </a>
+                        ) : (
+                          <p className="text-gray-300">Not provided</p>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">GitHub</h3>
+                        {application.links.github ? (
+                          <a 
+                            href={application.links.github} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-purple-400 hover:text-purple-300"
+                          >
+                            {application.links.github}
+                          </a>
+                        ) : (
+                          <p className="text-gray-300">Not provided</p>
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Website</h3>
+                        {application.links.website ? (
+                          <a 
+                            href={application.links.website} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-purple-400 hover:text-purple-300"
+                          >
+                            {application.links.website}
+                          </a>
+                        ) : (
+                          <p className="text-gray-300">Not provided</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {candidate.demographics && (
+                  <div id="demographics-section" className="bg-gray-800 rounded-xl p-6">
+                    <h2 className="text-xl font-semibold mb-4">Demographics</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Work Authorization</h3>
+                        <p className="text-gray-300">{candidate.demographics.authorization ? candidate.demographics.authorization.charAt(0).toUpperCase() + candidate.demographics.authorization.slice(1) : 'Not answered'}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Gender</h3>
+                        <p className="text-gray-300">{candidate.demographics.gender ? candidate.demographics.gender.charAt(0).toUpperCase() + candidate.demographics.gender.slice(1) : 'Not answered'}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Hispanic or Latino</h3>
+                        <p className="text-gray-300">{candidate.demographics.is_hispanic ? candidate.demographics.is_hispanic.charAt(0).toUpperCase() + candidate.demographics.is_hispanic.slice(1) : 'Not answered'}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Ethnicity</h3>
+                        <p className="text-gray-300">{candidate.demographics.ethnicity ? candidate.demographics.ethnicity.charAt(0).toUpperCase() + candidate.demographics.ethnicity.slice(1) : 'Not answered'}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Disability Status</h3>
+                        <p className="text-gray-300">{candidate.demographics.disability ? candidate.demographics.disability.charAt(0).toUpperCase() + candidate.demographics.disability.slice(1) : 'Not answered'}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-gray-400 text-sm">Veteran Status</h3>
+                        <p className="text-gray-300">{candidate.demographics.veteran ? candidate.demographics.veteran.charAt(0).toUpperCase() + candidate.demographics.veteran.slice(1) : 'Not answered'}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div id="side-panel" className="space-y-6">
-              {/* <div id="application-status" className="bg-gray-800 rounded-xl p-6">
-                <h2 className="text-xl font-semibold mb-4">Application Status</h2>
-                <div className="space-y-4">
-                  <div className="flex items-center text-green-400">
-                    <i className="fa-solid fa-circle-check mr-2"></i>
-                    <span>Application Received</span>
-                  </div>
-                  <div className="flex items-center text-green-400">
-                    <i className="fa-solid fa-circle-check mr-2"></i>
-                    <span>Resume Screened</span>
-                  </div>
-                  <div className="flex items-center text-purple-400">
-                    <i className="fa-solid fa-circle-half-stroke mr-2"></i>
-                    <span>{application.status.current_stage}</span>
-                  </div>
-                </div>
-              </div> */}
-
               <div id="quick-actions" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Actions</h2>
                 <div className="space-y-3">
+                  {application.resumeUrl && (
+                    <button 
+                      onClick={handleDownloadClick}
+                      className="w-full px-4 py-3 bg-purple-600/50 hover:bg-purple-600/50 rounded-lg flex items-center justify-center"
+                    >
+                      <i className="fa-solid fa-file-arrow-down mr-2"></i>
+                      Download Resume
+                    </button>
+                  )}
                   <button 
-                    className="w-full px-4 py-3 bg-purple-600/50 hover:bg-purple-600/50 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
+                    className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
                     disabled
                   >
                     <i className="fa-solid fa-calendar-plus mr-2"></i>
@@ -183,15 +257,6 @@ export default function CandidateApplication() {
                       Feature coming soon!
                     </span>
                   </button>
-                  {application.resumeUrl && (
-                    <button 
-                      onClick={handleDownloadClick}
-                      className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center"
-                    >
-                      <i className="fa-solid fa-file-arrow-down mr-2"></i>
-                      Download Resume
-                    </button>
-                  )}
                 </div>
               </div>
 
