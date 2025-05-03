@@ -3,29 +3,28 @@
 import Nav from "@/components/nav/nav";
 import Image from "next/image";
 import { useApplicationData } from "./useApplicationData";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect } from "react";
-
-// Function to check if a string is a valid integer
-const isValidInteger = (id: string): boolean => {
-  return /^\d+$/.test(id);
-};
+import { useResume } from "@/app/profile/useResume";
 
 export default function CandidateApplication() {
   const params = useParams();
-  const router = useRouter();
   const { jobId, applicationId } = params;
-
-  // useEffect(() => {
-  //   if (!isValidInteger(candidateId as string)) {
-  //     console.error('Invalid candidate ID format. Expected a numeric ID');
-  //   }
-  // }, [candidateId]);
 
   const { application, job, candidate, loading, error, errorDetails } = useApplicationData(
     jobId as string,
     applicationId as string
   );
+
+  const { handleDownloadClick } = useResume({ 
+    fileInputRef: { current: null },
+    currentFile: application?.resumeUrl 
+  });
+
+  console.log('Application data:', application);
+  console.log('Application status:', application?.status);
+  console.log('Last updated:', application?.status?.last_updated);
+  console.log('Current stage:', application?.status?.current_stage);
 
   if (loading) {
     return (
@@ -58,7 +57,7 @@ export default function CandidateApplication() {
             )}
             <p className="text-sm text-gray-400">Job ID: {jobId}</p>
             <p className="text-sm text-gray-400">Candidate ID: {application?.candidateId}</p>
-            {!isValidInteger(application?.candidateId as string) && (
+            {application?.candidateId && !Number.isInteger(application.candidateId) && (
               <p className="text-yellow-500">Warning: The candidate ID must be a numeric value</p>
             )}
           </div>
@@ -86,31 +85,34 @@ export default function CandidateApplication() {
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">In Review</span>
-              <span className="px-3 py-1 bg-gray-800 rounded-full text-sm">Applied {new Date(application.status.lastUpdated).toLocaleDateString()}</span>
-              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">{application.status.currentStage}</span>
+              {/* <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">In Review</span> */}
+              <span className="px-3 py-1 bg-gray-800 rounded-full text-sm">
+                Applied {application?.status?.last_updated ? new Date(application.status.last_updated).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                }) : 'N/A'}
+              </span>
+              <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
+                {application?.status?.current_stage || 'N/A'}
+              </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div id="main-content" className="lg:col-span-2 space-y-6">
-              <div id="profile-summary" className="bg-gray-800 rounded-xl p-6">
+              {/* <div id="profile-summary" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Professional Summary</h2>
                 <p className="text-gray-300 leading-relaxed">{job.overview}</p>
-              </div>
+              </div> */}
 
               <div id="skills-section" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Technical Skills</h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-wrap gap-3">
                   {candidate.skills && candidate.skills.map((skill, index) => (
-                    <div key={index}>
-                      <div className="flex justify-between mb-1">
-                        <span>{skill}</span>
-                        <span className="text-purple-400">Proficient</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div className="bg-purple-500 h-2 rounded-full w-80/1"></div>
-                      </div>
+                    <div key={index} className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 rounded-lg">
+                      <i className="fa-solid fa-check text-green-400 text-sm"></i>
+                      <span className="text-sm">{skill}</span>
                     </div>
                   ))}
                 </div>
@@ -140,7 +142,7 @@ export default function CandidateApplication() {
             </div>
 
             <div id="side-panel" className="space-y-6">
-              <div id="application-status" className="bg-gray-800 rounded-xl p-6">
+              {/* <div id="application-status" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Application Status</h2>
                 <div className="space-y-4">
                   <div className="flex items-center text-green-400">
@@ -153,32 +155,42 @@ export default function CandidateApplication() {
                   </div>
                   <div className="flex items-center text-purple-400">
                     <i className="fa-solid fa-circle-half-stroke mr-2"></i>
-                    <span>{application.status.currentStage}</span>
+                    <span>{application.status.current_stage}</span>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div id="quick-actions" className="bg-gray-800 rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-4">Actions</h2>
                 <div className="space-y-3">
-                  <button className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center">
+                  <button 
+                    className="w-full px-4 py-3 bg-purple-600/50 hover:bg-purple-600/50 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
+                    disabled
+                  >
                     <i className="fa-solid fa-calendar-plus mr-2"></i>
                     Schedule Interview
+                    <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      Feature coming soon!
+                    </span>
                   </button>
-                  <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center">
+                  <button 
+                    className="w-full px-4 py-3 bg-gray-700/50 hover:bg-gray-700/50 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
+                    disabled
+                  >
                     <i className="fa-solid fa-envelope mr-2"></i>
                     Send Message
+                    <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      Feature coming soon!
+                    </span>
                   </button>
                   {application.resumeUrl && (
-                    <a 
-                      href={application.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button 
+                      onClick={handleDownloadClick}
                       className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center"
                     >
                       <i className="fa-solid fa-file-arrow-down mr-2"></i>
                       Download Resume
-                    </a>
+                    </button>
                   )}
                 </div>
               </div>
