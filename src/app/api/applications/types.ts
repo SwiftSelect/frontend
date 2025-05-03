@@ -3,20 +3,18 @@ import { Demographics, Links } from "@/app/profile/useProfile";
 export interface Application {
   _id: string;
   applicationId: string;
+  firstName: string;
+  lastName: string;
   candidateId: number;
   jobId: string;
   resumeUrl: string;
   status: {
-    current_stage: string;
-    last_updated: string;
+    currentStage: string;
+    lastUpdated: string;
   };
   email: string;
   phone: string;
-  coverLetter?: string;
-  demographics?: any;
-  links?: any;
-  location?: string;
-  skills?: string[];
+  [key: string]: any; // Allow for additional MongoDB fields
 } 
 
 export interface ApplicationRequest{ 
@@ -32,8 +30,10 @@ export interface ApplicationRequest{
     coverLetter: string,
     skills: string[],
     demographics: Demographics,
+    [key: string]: any; 
 }
 
 export interface ApplicationResponse {
     applicationId: string;
+    [key: string]: any;
 }

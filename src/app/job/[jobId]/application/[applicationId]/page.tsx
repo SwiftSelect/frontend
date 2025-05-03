@@ -21,11 +21,6 @@ export default function CandidateApplication() {
     currentFile: application?.resumeUrl 
   });
 
-  // console.log('Application data:', application);
-  // console.log('Application status:', application?.status);
-  // console.log('Last updated:', application?.status?.last_updated);
-  // console.log('Current stage:', application?.status?.current_stage);
-
   
   if (loading) {
     return (
@@ -81,21 +76,21 @@ export default function CandidateApplication() {
                 <Image width={40} height={40} src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" className="w-20 h-20 rounded-full mr-4" alt="Candidate" />
                 <div>
                   <h1 className="text-3xl font-bold">{candidate.current_position}</h1>
-                  <p className="text-gray-400">Application for TODO: PULL CANDIDATE NAME</p>
+                  <p className="text-gray-400">Application for {application.firstName} {application.lastName}</p>
                 </div>
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
               {/* <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">In Review</span> */}
               <span className="px-3 py-1 bg-gray-800 rounded-full text-sm">
-                Applied {application?.status?.last_updated ? new Date(application.status.last_updated).toLocaleDateString('en-US', { 
+                Applied {application?.status?.lastUpdated ? new Date(application.status.lastUpdated).toLocaleDateString('en-US', { 
                   year: 'numeric', 
                   month: 'long', 
                   day: 'numeric' 
                 }) : 'N/A'}
               </span>
               <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
-                {application?.status?.current_stage || 'N/A'}
+                {application?.status?.currentStage || 'N/A'}
               </span>
             </div>
           </div>
@@ -143,14 +138,14 @@ export default function CandidateApplication() {
                     <div className="space-y-4">
                       <div>
                         <h3 className="text-gray-400 text-sm">LinkedIn</h3>
-                        {application.links.linked_in ? (
+                        {application.links.linkedIn ? (
                           <a 
-                            href={application.links.linked_in} 
+                            href={application.links.linkedIn} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-purple-400 hover:text-purple-300"
                           >
-                            {application.links.linked_in}
+                            {application.links.linkedIn}
                           </a>
                         ) : (
                           <p className="text-gray-300">Not provided</p>
@@ -204,7 +199,7 @@ export default function CandidateApplication() {
                       </div>
                       <div>
                         <h3 className="text-gray-400 text-sm">Hispanic or Latino</h3>
-                        <p className="text-gray-300">{candidate.demographics.is_hispanic ? candidate.demographics.is_hispanic.charAt(0).toUpperCase() + candidate.demographics.is_hispanic.slice(1) : 'Not answered'}</p>
+                        <p className="text-gray-300">{candidate.demographics.isHispanic ? candidate.demographics.isHispanic.charAt(0).toUpperCase() + candidate.demographics.isHispanic.slice(1) : 'Not answered'}</p>
                       </div>
                       <div>
                         <h3 className="text-gray-400 text-sm">Ethnicity</h3>

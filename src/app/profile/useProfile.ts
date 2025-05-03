@@ -25,7 +25,7 @@ export type Links = {
 export type Demographics = {
     authorization?: string;
     gender?: string;
-    is_hispanic?: string;
+    isHispanic?: string;
     ethnicity?: string;
     disability?: string;
     veteran?: string;
@@ -47,7 +47,7 @@ const useProfile = () => {
             demographics: {
                 authorization: "",
                 gender: "",
-                is_hispanic: "",
+                isHispanic: "",
                 ethnicity: "", 
                 disability: "", 
                 veteran: "",
@@ -118,10 +118,10 @@ const useProfile = () => {
         onSubmit: async (values, actions) => {
             try {
                 const mappedValues = {
-                    current_position: values.currentPosition,
+                    currentPosition: values.currentPosition,
                     location: values.location,
                     phone: values.phone,
-                    resume_url: values.resume, 
+                    resumeUrl: values.resume, 
                     skills: values.skills,
                     demographics: values.demographics,
                     links: values.links,
