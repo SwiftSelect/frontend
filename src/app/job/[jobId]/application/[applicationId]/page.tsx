@@ -53,7 +53,7 @@ export default function CandidateApplication() {
             )}
             <p className="text-sm text-gray-400">Job ID: {jobId}</p>
             <p className="text-sm text-gray-400">Candidate ID: {application?.candidateId}</p>
-            {application?.candidateId && !Number.isInteger(application.candidateId) && (
+            {application?.candidateId && (
               <p className="text-yellow-500">Warning: The candidate ID must be a numeric value</p>
             )}
           </div>

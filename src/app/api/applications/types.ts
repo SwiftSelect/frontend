@@ -12,9 +12,17 @@ export interface Application {
     currentStage: string;
     lastUpdated: string;
   };
+  links: {
+    linkedIn: string;
+    github: string;
+    website: string;
+  };
   email: string;
   phone: string;
-  [key: string]: any; // Allow for additional MongoDB fields
+  location: string;
+  coverLetter: string;
+  skills: string[];
+  demographics: Demographics;
 } 
 
 export interface ApplicationRequest{ 
@@ -29,11 +37,9 @@ export interface ApplicationRequest{
     location: string,
     coverLetter: string,
     skills: string[],
-    demographics: Demographics,
-    [key: string]: any; 
+    demographics: Demographics
 }
 
 export interface ApplicationResponse {
     applicationId: string;
-    [key: string]: any;
 }
