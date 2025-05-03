@@ -15,6 +15,8 @@ export interface Application {
 } 
 
 export interface ApplicationRequest{ 
+    firstName: string;
+    lastName: string;
     jobId: string;
     candidateId: number;
     phone: string,

@@ -103,6 +103,8 @@ const useApplication = () => {
         onSubmit: async (values) => {
             try {
                 const application: ApplicationRequest = {
+                    firstName: values.firstName,
+                    lastName: values.lastName,
                     jobId: jobId,
                     candidateId: Number(session?.user?.id),
                     location: values.currentLocation,
