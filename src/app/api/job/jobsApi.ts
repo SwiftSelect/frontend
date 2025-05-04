@@ -14,6 +14,11 @@ const jobsService = {
         return data;
     },
 
+    getJobsByRecruiterId: async (recruiterId: number) => {
+        const { data } = await api.get<JobDetails[]>(`/jobs/recruiter/${recruiterId}`);
+        return data;
+    },
+
     createJob: async (jobData: Omit<JobDetails, 'postedDate' | 'daysPostedAgo'>) => {
         console.log('Creating job with data:', jobData);
         const { data } = await api.post<CreatedJobResponse>('/jobs', jobData);
