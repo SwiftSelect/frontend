@@ -7,9 +7,10 @@ import CollapsibleSection from "@/components/ui/collapsible-section";
 import { usePostJob } from './usePostJob';
 import { PostJobFormData, Skill, ExperienceRequirement } from '@/app/api/job/types';
 import { useRouter } from 'next/navigation';
+import { BackButton } from "@/components/buttons";
 
 export default function PostJobPage() {
-  const { createJob, loading, error: apiError, success, companyId } = usePostJob();
+  const { createJob, loading, error: apiError, companyId } = usePostJob();
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedBenefits, setSelectedBenefits] = useState<string[]>(['Health Insurance', '401(k)', 'Stock Options', 'Remote Work']);
@@ -24,7 +25,7 @@ export default function PostJobPage() {
     overview: '',
     description: '',
     company: '',
-    companyId: companyId || '',
+    companyId: companyId || 0,
     skills: [],
     experience: '',
     location: '',
@@ -178,13 +179,7 @@ export default function PostJobPage() {
             <div id="post-job-header" className="mb-8">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <button 
-                    type="button"
-                    className="text-purple-500 hover:text-purple-400 mr-4"
-                    onClick={() => router.back()}
-                  >
-                    <i className="fa-solid fa-arrow-left text-xl"></i>
-                  </button>
+                    <BackButton onClick={() => router.back()} />
                   <h1 className="text-3xl font-bold">Post New Job</h1>
                 </div>
                 <button 

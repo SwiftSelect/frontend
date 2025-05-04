@@ -1,8 +1,8 @@
 import React from "react";
 
 interface ButtonOptions {
-    children: React.ReactNode | string;
-    onClick?(): void;
+    children?: React.ReactNode | string;
+    onClick?: () => void;
 }
 
 export const PrimaryButton = (options : ButtonOptions) => (
@@ -12,5 +12,11 @@ export const PrimaryButton = (options : ButtonOptions) => (
 export const IconButton = (options : ButtonOptions) => (
     <button className="text-purple-500" onClick={options?.onClick}>
         {options.children}
+    </button>
+)
+
+export const BackButton = (options : ButtonOptions) => (
+    <button className="text-purple-500 mr-4" onClick={options?.onClick}>
+        <i className="fa-solid fa-arrow-left"></i>
     </button>
 )

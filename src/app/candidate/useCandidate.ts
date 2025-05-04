@@ -24,9 +24,7 @@ export const useCandidate = () => {
             try {
                 const data = await similarityService.getRecommendedJobs(session?.user.id || '');
                 setJobRecommendations(data);
-                console.warn('111', data.recommendations.map(r => r.job_id.toString()));
                 const jobSummaries = await jobsService.getJobSummaries(data.recommendations.map(r => r.job_id.toString()));
-                console.warn('222', jobSummaries);
                 setJobSummaries(new Map(jobSummaries.map(j => [j.id.toString(), j])));
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to fetch job recommendations');

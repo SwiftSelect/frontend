@@ -55,7 +55,7 @@ export const useApplicationData = (jobId: string, applicationId: string) => {
           throw new Error('Application not found');
         }
 
-        const candidate =  { ...(await profileService.getProfileById(application.candidateId.toString())), firstName: session?.user?.firstName || '', lastName: session?.user?.lastName || ''  };
+        const candidate =  { ...(await profileService.getProfileById(application.candidateId.toString())), firstName: application.firstName || '', lastName: session?.user?.lastName || ''  };
         console.log('Candidate data fetched successfully:', candidate);
 
         setData({
@@ -86,7 +86,7 @@ export const useApplicationData = (jobId: string, applicationId: string) => {
     };
 
     fetchData();
-  }, [jobId, applicationId]);
+  }, [jobId, applicationId, session]);
 
   return data;
 }; 

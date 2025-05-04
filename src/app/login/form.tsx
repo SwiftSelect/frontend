@@ -205,16 +205,21 @@ const LoginForm = () => {
 			</span>
 		  </div>
 		</div>
-		<div className="grid grid-cols-3 gap-3">
-		  <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
-			<i className="fa-brands fa-google text-xl"></i>
-		  </button>
-		  {/* <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
-			<i className="fa-brands fa-linkedin text-xl"></i>
-		  </button>
-		  <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
-			<i className="fa-brands fa-github text-xl"></i>
-		  </button> */}
+		<div className="relative group">
+            <span className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-sm text-gray-100 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              Feature coming soon
+            </span>
+            <div className="blur-sm grid grid-cols-3 gap-3 ">
+                <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                    <i className="fa-brands fa-google text-xl"></i>
+                </button>
+                <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                    <i className="fa-brands fa-linkedin text-xl"></i>
+                </button>
+                <button className="flex items-center justify-center py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                    <i className="fa-brands fa-github text-xl"></i>
+                </button>
+            </div>
 		</div>
 	  </div>
 	</div>

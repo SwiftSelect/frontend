@@ -36,7 +36,7 @@ const jobsService = {
     },
 
     getJobSummaries: async (jobIds: string[]) => {
-        const { data } = await api.post<JobSummary[]>('/jobs/batch', jobIds);
+        const { data } = await api.post<JobSummary[]>('/jobs/summary', jobIds);
         return data;
     }
 };

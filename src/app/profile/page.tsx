@@ -6,6 +6,7 @@ import ProfileForm from "./form";
 import { SessionProvider } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { BackButton } from "@/components/buttons";
 
 function ProfileContent() {
     const { data: session } = useSession();
@@ -16,10 +17,7 @@ function ProfileContent() {
             <Nav />
             <main className="pt-24 min-h-screen">
                 <div className="container mx-auto px-4">
-                    <button onClick={() => router.back()}  className="text-purple-500 hover:text-gray-300 mb-4">
-                        <i className="fa-solid fa-arrow-left mr-2"></i> 
-                        {'Back'}
-                    </button>
+                <BackButton onClick={() => router.back()} />    
                     <div id="profile-card" className="bg-gray-800 rounded-xl p-6 mb-6">
                         <div className="flex flex-col items-center text-center mb-6">
                         <Image src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" width={30} height={30} alt="Profile" className="w-24 h-24 rounded-full mb-4" />

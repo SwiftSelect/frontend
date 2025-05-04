@@ -6,6 +6,8 @@ import useJobDetails from "./useJobDetails";
 import useCompanyDetails from "./useCompanyDetails";
 import { SessionProvider, useSession } from "next-auth/react";
 import CollapsibleSection from "@/components/ui/collapsible-section";
+import { BackButton } from "@/components/buttons";
+import { useRouter } from "next/navigation";
 
 function JobDetailsContent() {
   const { jobId } = useParams();
@@ -13,7 +15,7 @@ function JobDetailsContent() {
   const { company, loading: companyLoading, error: companyError } = useCompanyDetails();
   const { data: session } = useSession();
   const isRecruiter = session?.user?.isRecruiter;
-
+  const router = useRouter();
   if (jobLoading || companyLoading) {
     return (
       <div className="bg-gray-900 text-gray-100 min-h-screen">
@@ -62,9 +64,7 @@ function JobDetailsContent() {
           <div className="container mx-auto px-4 py-8">
             <div id="job-header" className="mb-8">
               <div className="flex items-center mb-6">
-                <button className="text-purple-500 hover:text-purple-400 mr-4">
-                  <i className="fa-solid fa-arrow-left text-xl"></i>
-                </button>
+              <BackButton onClick={() => router.back()} />
                 <div>
                   <h1 className="text-3xl font-bold">{job.title}</h1>
                   <div className="flex items-center mt-2 text-gray-400">

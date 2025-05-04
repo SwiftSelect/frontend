@@ -11,7 +11,7 @@ const Nav = () => {
         <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
-                <a href="#" className="text-2xl font-bold text-purple-500">
+                <a href="/" className="text-2xl font-bold text-purple-500">
                 <i className="fa-solid fa-brain mr-2"></i>
                 SwiftSelect
                 </a>

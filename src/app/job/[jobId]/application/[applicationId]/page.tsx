@@ -5,9 +5,13 @@ import Image from "next/image";
 import { useApplicationData } from "./useApplicationData";
 import { useParams } from "next/navigation";
 import { useResume } from "@/app/profile/useResume";
+import { SessionProvider } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { BackButton } from "@/components/buttons";
 
-export default function CandidateApplication() {
+function CandidateApplicationDetails() {
   const params = useParams();
+  const router = useRouter();
   const { jobId, applicationId } = params;
 
   const { application, job, candidate, loading, error, errorDetails } = useApplicationData(
@@ -68,13 +72,11 @@ export default function CandidateApplication() {
         <div className="container mx-auto px-4 py-8">
           <div id="profile-header" className="mb-8">
             <div className="flex items-center mb-4">
-              <button className="text-purple-500 hover:text-purple-400 mr-4">
-                <i className="fa-solid fa-arrow-left text-xl"></i>
-              </button>
+                <BackButton onClick={() => router.back()} />
               <div className="flex items-center">
                 <Image width={40} height={40} src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" className="w-20 h-20 rounded-full mr-4" alt="Candidate" />
                 <div>
-                  <h1 className="text-3xl font-bold">{candidate.firstName} {candidate.lastName}</h1>
+                  <h1 className="text-3xl font-bold">{application.firstName} {application.lastName}</h1>
                   <p className="text-gray-400">Application for {job.title}</p>
                 </div>
               </div>
@@ -274,3 +276,10 @@ export default function CandidateApplication() {
     </div>
   );
 }
+export default function CandidateApplication() {
+  return (
+    <SessionProvider>
+      <CandidateApplicationDetails />
+    </SessionProvider>
+  )
+}   

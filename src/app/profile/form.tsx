@@ -96,12 +96,6 @@ const ProfileForm = () => {
             <div className="border-t border-gray-700 pt-6">
                 <div className="flex justify-end gap-4">
                     <button 
-                        type="button"
-                        className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg"
-                    >
-                        Cancel
-                    </button>
-                    <button 
                         type="submit"
                         disabled={!profileFormik.touched || profileFormik.isSubmitting || !profileFormik.isValid}
                         className="px-6 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg disabled:opacity-50"

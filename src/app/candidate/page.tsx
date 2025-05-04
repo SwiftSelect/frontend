@@ -101,7 +101,7 @@ function CandidatePageDetails() {
                           if (!job) return null;
                           
                           return (
-                            <div key={application._id} className="bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:shadow-purple-500/10 transition">
+                            <div key={application.applicationId} className="bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:shadow-purple-500/10 transition">
                               <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center">
                                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">

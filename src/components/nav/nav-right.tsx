@@ -7,7 +7,6 @@ import Image from "next/image";
 const NavRight = () => {
     const session = useSession();
     const pathname = usePathname();
-
     const renderNav = () => {
         if (session.data?.user?.id) {
             if (pathname === '/')
@@ -20,9 +19,8 @@ const NavRight = () => {
                 )
             return (
                 <div className="flex items-center space-x-4">
-                    <IconButton onClick={() => {
-                        signOut();
-                        window.history.pushState({}, '', '/');
+                    <IconButton onClick={async () => {
+                        await signOut({ redirect: false });
                         window.location.href = '/';
                     }}> Logout </IconButton>
                     {/* <div className="relative">

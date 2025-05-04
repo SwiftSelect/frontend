@@ -3,9 +3,12 @@ import Nav from "@/components/nav/nav";
 import { SessionProvider } from "next-auth/react";
 import JobApplicationForm from "./form";
 import useApplication from "./useApplication";
+import { BackButton } from "@/components/buttons";
+import { useRouter } from "next/navigation";    
 
 function JobApplicationDetails() {
   const { job, formik, handleResumeUpload } = useApplication();
+  const router = useRouter();
 
   return (
     <div className="bg-gray-900 min-h-screen text-gray-100">
@@ -15,9 +18,7 @@ function JobApplicationDetails() {
           <div className="max-w-4xl mx-auto">
             <div id="job-header" className="rounded-xl mb-8">
               <div className="flex items-start gap-6">
-                <button className="text-purple-500 hover:text-gray-300">
-                  <i className="fa-solid fa-arrow-left mr-2"></i>
-                </button>
+              <BackButton onClick={() => router.back()} />  
                 <div className="flex-1">
                   <h1 className="text-2xl font-bold mb-2">{job?.title}</h1>
                   <div className="flex items-center text-gray-400 mb-4">
