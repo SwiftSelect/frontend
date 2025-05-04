@@ -21,14 +21,14 @@ const useCompanyDetails = () => {
         const jobDetails = await jobsService.getJobDetails(jobId as string);
         
         // Then use the companyId to get org details from auth service
-        const orgDetails = await authService.getOrgDetails(parseInt(jobDetails.companyId));
+        const orgDetails = await authService.getOrgDetails(jobDetails.companyId);
         console.log(orgDetails);
         
         // Convert org details to company details format
         setCompany({
           companyName: orgDetails.name,
           companyDomain: orgDetails.domain,
-          companyId: orgDetails.id.toString(),
+          companyId: orgDetails.id,
           companyDescription: orgDetails.description || '',
           companySize: orgDetails.size || '',
           companyIndustry: orgDetails.industry || ''

@@ -4,13 +4,15 @@ import { useParams } from "next/navigation";
 import Nav from "@/components/nav/nav";
 import useJobDetails from "./useJobDetails";
 import useCompanyDetails from "./useCompanyDetails";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import CollapsibleSection from "@/components/ui/collapsible-section";
 
 function JobDetailsContent() {
   const { jobId } = useParams();
   const { job, loading: jobLoading, error: jobError } = useJobDetails(jobId as string);
   const { company, loading: companyLoading, error: companyError } = useCompanyDetails();
+  const { data: session } = useSession();
+  const isRecruiter = session?.user?.isRecruiter;
 
   if (jobLoading || companyLoading) {
     return (
@@ -68,7 +70,7 @@ function JobDetailsContent() {
                   <div className="flex items-center mt-2 text-gray-400">
                     <span className="flex items-center">
                       <i className="fa-solid fa-building mr-2"></i>
-                      {job.company}
+                      {company.companyName}
                     </span>
                     <span className="mx-3">•</span>
                     <span className="flex items-center">
@@ -140,14 +142,18 @@ function JobDetailsContent() {
                       <i className="fa-solid fa-money-bill-wave text-2xl text-purple-500"></i>
                     </div>
                     <div className="space-y-3">
-                      <button className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center">
-                        <i className="fa-solid fa-paper-plane mr-2"></i>
-                        Apply Now
-                      </button>
-                      <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center">
-                        <i className="fa-regular fa-bookmark mr-2"></i>
-                        Save Job
-                      </button>
+                      {!isRecruiter && (
+                        <>
+                          <button className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center">
+                            <i className="fa-solid fa-paper-plane mr-2"></i>
+                            Apply Now
+                          </button>
+                          <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center">
+                            <i className="fa-regular fa-bookmark mr-2"></i>
+                            Save Job
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
