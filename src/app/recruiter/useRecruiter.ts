@@ -20,9 +20,8 @@ export const useRecruiter = () => {
             if (!session?.user?.id) return;
             
             try {
-                // const data = await jobsService.getJobsByRecruiterId(Number(session.user.id)); // TODO: for demo, add jobs for demo-recruiter profile
-                const data = await jobsService.getJobsByRecruiterId(Number(session.user.id)-1); // -1 for now because data available for recruiter id 0 
-                console.log('Posted jobs data:', data);
+                const data = await jobsService.getJobsByRecruiterId(Number(session.user.id)); // TODO: for demo, add jobs for demo-recruiter profile
+                // const data = await jobsService.getJobsByRecruiterId(Number(session.user.id)-1); // -1 for now because data available for recruiter id 0 
                 
                 const mappedJobs = (data as unknown as ApiJobResponse[]).map(job => ({
                     ...job,
@@ -42,7 +41,7 @@ export const useRecruiter = () => {
         const getJobMatches = async () => {
             if (!postedJobs.length) return;
 
-            console.log('Posted jobs for matches:', postedJobs);
+            // console.log('Posted jobs for matches:', postedJobs);
             const matchesPromises = postedJobs
                 .filter(job => job?.id != null) // Filter out jobs without IDs
                 .map(async (job) => {
@@ -51,7 +50,7 @@ export const useRecruiter = () => {
                             console.warn('Job missing ID:', job);
                             return { jobId: null, matches: null };
                         }
-                        console.log('Fetching matches for job ID:', job.id);
+                        // console.log('Fetching matches for job ID:', job.id);
                         const matches = await similarityService.getJobMatches(job.id.toString());
                         return { jobId: job.id, matches };
                     } catch (error) {
