@@ -8,6 +8,7 @@ export interface JobDetails {
     overview: string;
     description: string,
     company: string,
+    companyId: string,
     skills: string;
     experience: string;
     location: string;
@@ -23,6 +24,7 @@ export interface PostJobFormData {
     overview: string;
     description: string,
     company: string,
+    companyId: string,
     skills: string[];
     experience: string;
     location: string;
@@ -37,6 +39,7 @@ export interface CreatedJobResponse {
     overview: string;
     description: string,
     company: string,
+    companyId: string,
     skills: string;
     experience: string;
     location: string;
@@ -49,6 +52,8 @@ export interface CreatedJobResponse {
 
 export interface CompanyDetails {
     companyName: string;
+    companyDomain: string;
+    companyId: string;
     companyDescription: string;
     companySize: string;
     companyIndustry: string;

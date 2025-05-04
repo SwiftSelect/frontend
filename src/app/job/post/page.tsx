@@ -9,7 +9,7 @@ import { PostJobFormData, Skill, ExperienceRequirement } from '@/app/api/job/typ
 import { useRouter } from 'next/navigation';
 
 export default function PostJobPage() {
-  const { createJob, loading, error: apiError, success } = usePostJob();
+  const { createJob, loading, error: apiError, success, companyId } = usePostJob();
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedBenefits, setSelectedBenefits] = useState<string[]>(['Health Insurance', '401(k)', 'Stock Options', 'Remote Work']);
@@ -24,6 +24,7 @@ export default function PostJobPage() {
     overview: '',
     description: '',
     company: '',
+    companyId: companyId || '',
     skills: [],
     experience: '',
     location: '',
