@@ -18,23 +18,6 @@ const applicationsService = {
                 throw new Error(`Failed to fetch applications: ${error instanceof Error ? error.message : 'Unknown error'}`);
             }
         },
-
-     getApplicationByApplicationId: async (applicationId: string) => {
-        try {
-          console.log('Getting application by application ID:', applicationId);
-          const { data } = await api.get<Application>(`/applications/${applicationId}`);
-          if (!data) {
-            throw new Error(`Application with ID ${applicationId} not found`);
-          }
-
-          return data;
-        } catch (error) {
-          console.error('Error in getApplicationByApplicationId:', error);
-          throw error;
-        }
-      },
-
-
      getApplicationByCandidateId: async (candidateId: string) => {
         try {
             console.log('Getting application by candidate ID:', { candidateId });
