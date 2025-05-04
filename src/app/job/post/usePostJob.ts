@@ -8,7 +8,7 @@ export const usePostJob = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
-    const [companyId, setCompanyId] = useState<string>('');
+    const [companyId, setCompanyId] = useState<number>();
     const router = useRouter();
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export const usePostJob = () => {
             try {
                 const userDetails = await authService.getUserOrgDetails();
                 if (userDetails?.org?.id) {
-                    setCompanyId(userDetails.org.id.toString());
+                    setCompanyId(userDetails.org.id);
                 }
             } catch (error) {
                 console.error('Error fetching user organization details:', error);

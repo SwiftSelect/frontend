@@ -105,7 +105,7 @@ const useApplication = () => {
                 const application: ApplicationRequest = {
                     firstName: values.firstName,
                     lastName: values.lastName,
-                    jobId: jobId,
+                    jobId: Number(jobId),
                     candidateId: Number(session?.user?.id),
                     location: values.currentLocation,
                     resumeUrl: values.resume,

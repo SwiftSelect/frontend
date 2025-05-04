@@ -6,7 +6,7 @@ export interface Application {
   firstName: string;
   lastName: string;
   candidateId: number;
-  jobId: string;
+  jobId: number;
   resumeUrl: string;
   status: {
     currentStage: string;
@@ -28,7 +28,7 @@ export interface Application {
 export interface ApplicationRequest{ 
     firstName: string;
     lastName: string;
-    jobId: string;
+    jobId: number;
     candidateId: number;
     phone: string,
     resumeUrl: string,
