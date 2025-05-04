@@ -69,9 +69,9 @@ const useProfile = () => {
         try{
             const resp = await profileService.getProfile();
             const mappedValues = {
-                currentPosition: resp.current_position,
+                currentPosition: resp.currentPosition,
                 location: resp.location,
-                resume: resp.resume_url,
+                resume: resp.resumeUrl,
                 skills: resp.skills,
                 demographics: resp.demographics,
                 links: resp.links,

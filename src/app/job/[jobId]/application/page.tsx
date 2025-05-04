@@ -2,8 +2,10 @@
 import Nav from "@/components/nav/nav";
 import { SessionProvider } from "next-auth/react";
 import JobApplicationForm from "./form";
+import useApplication from "./useApplication";
 
-export default function JobApplication() {
+function JobApplicationDetails() {
+  const { job, formik, handleResumeUpload } = useApplication();
 
   return (
     <div className="bg-gray-900 min-h-screen text-gray-100">
@@ -17,34 +19,36 @@ export default function JobApplication() {
                   <i className="fa-solid fa-arrow-left mr-2"></i>
                 </button>
                 <div className="flex-1">
-                  <h1 className="text-2xl font-bold mb-2">Senior Software Engineer</h1>
+                  <h1 className="text-2xl font-bold mb-2">{job?.title}</h1>
                   <div className="flex items-center text-gray-400 mb-4">
                     <span className="flex items-center mr-4">
                       <i className="fa-solid fa-building mr-2"></i>
-                      Google
+                      {job?.company}
                     </span>
                     <span className="flex items-center mr-4">
                       <i className="fa-solid fa-location-dot mr-2"></i>
-                      Remote
-                    </span>
-                    <span className="flex items-center">
-                      <i className="fa-solid fa-clock mr-2"></i>
-                      Full-time
+                      {job?.location}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-purple-600/20 text-purple-400 rounded-full text-sm">$120k-$180k</span>
-                    <span className="px-3 py-1 bg-gray-700 rounded-full text-sm">Posted 2 days ago</span>
+                    <span className="px-3 py-1 bg-purple-600/20 text-purple-400 rounded-full text-sm">{job?.salaryRange}</span>
+                    <span className="px-3 py-1 bg-gray-700 rounded-full text-sm">Posted {job?.daysPostedAgo} days ago</span>
                   </div>
                 </div>
               </div>
             </div>
-            <SessionProvider>
-              <JobApplicationForm />
-            </SessionProvider>
+              <JobApplicationForm formik={formik} handleResumeUpload={handleResumeUpload} />
           </div>
         </div>
       </main>
     </div>
+  );
+}
+
+export default function JobApplication() {
+  return (
+    <SessionProvider>
+      <JobApplicationDetails />
+    </SessionProvider>
   );
 }

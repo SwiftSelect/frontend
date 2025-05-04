@@ -20,7 +20,11 @@ const NavRight = () => {
                 )
             return (
                 <div className="flex items-center space-x-4">
-                    <IconButton onClick={() => {signOut()}}> Logout </IconButton>
+                    <IconButton onClick={() => {
+                        signOut();
+                        window.history.pushState({}, '', '/');
+                        window.location.href = '/';
+                    }}> Logout </IconButton>
                     {/* <div className="relative">
                         <IconButton>
                             <i className="fa-regular fa-bell text-xl"></i>

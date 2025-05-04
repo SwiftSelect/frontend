@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { ApplicationRequest } from "@/app/api/applications/types";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import jobService from "@/app/api/job/jobsApi";
+import { JobDetails } from "@/app/api/job/types";
 
 export const applicationSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -23,9 +25,10 @@ export const applicationSchema = z.object({
         website: z.string().optional(),
     }).optional(),
     coverLetter: z.string().optional(),
-    currentLocation: z.string().min(1, "Location is required"),
+    location: z.string().min(1, "Location is required"),
     skills: z.array(z.string()).optional(),
     demographics: z.object({}).optional(),
+    currentPosition: z.string().optional(),
 });
 
 export type ApplicationFormValues = z.infer<typeof applicationSchema>;
@@ -38,7 +41,7 @@ export type Application = {
     resume?: string;
     links?: Links;
     coverLetter?: string;
-    currentLocation?: string;
+    location?: string;
     skills?: string[];
     demographics?: Demographics;
 }
@@ -51,7 +54,7 @@ const useApplication = () => {
         firstName: '',
         lastName: '',
         email: '',
-        currentLocation: '',
+        location: '',
         coverLetter: '',
         skills: [],
         demographics: {},
@@ -60,18 +63,25 @@ const useApplication = () => {
     const params = useParams();
     const jobId = params.jobId as string;
     const router = useRouter();
+    const [job, setJob] = useState<JobDetails>();
+    
+    const fetchJob = async () => {
+        const resp = await jobService.getJobDetails(jobId);
+        setJob(resp);
+    };
+
     const fetchProfile = async () => {
     try {
         const resp = await profileService.getProfile();
         setApplication({
             ...application,
             phone: resp?.phone || '',
-            resume: resp.resume_url || '',
-            links: resp.links || {},
+            resume: resp?.resumeUrl || '',
+            links: resp?.links || {},
             firstName: session?.user?.firstName || '',
             lastName: session?.user?.lastName || '',
             email: session?.user?.email || '',
-            currentLocation: resp.location || '',
+            location: resp?.location || '',
             skills: resp.skills || [],
             demographics: resp.demographics || {},
         });
@@ -81,6 +91,7 @@ const useApplication = () => {
     };
 
     useEffect(() => {
+        fetchJob();
         fetchProfile();
     }, [session]);
 
@@ -94,7 +105,7 @@ const useApplication = () => {
             resume: application.resume || '',
             links: application.links || {},
             coverLetter: application.coverLetter || '',
-            currentLocation: application.currentLocation || '',
+            location: application.location || '',
             skills: application.skills || [],
             demographics: application.demographics || {},
         },
@@ -107,7 +118,7 @@ const useApplication = () => {
                     lastName: values.lastName,
                     jobId: Number(jobId),
                     candidateId: Number(session?.user?.id),
-                    location: values.currentLocation,
+                    location: values.location,
                     resumeUrl: values.resume,
                     skills: values.skills || [],
                     links: values.links || {},
@@ -157,6 +168,7 @@ const useApplication = () => {
         formik,
         handleResumeUpload,
         jobId,
+        job,
     };
 }
 
