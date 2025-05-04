@@ -1,5 +1,5 @@
 import createAPI from '..';
-import { JobDetails, CreatedJobResponse } from './types';
+import { JobDetails, CreatedJobResponse, JobSummary } from './types';
 
 const api = createAPI(process.env.NEXT_PUBLIC_JOBS_API_URL || "http://localhost:8080");
 
@@ -27,6 +27,11 @@ const jobsService = {
 
     deleteJob: async (jobId: string) => {
         const { data } = await api.delete(`/jobs/${jobId}`);
+        return data;
+    },
+
+    getJobSummaries: async (jobIds: string[]) => {
+        const { data } = await api.post<JobSummary[]>('/jobs/batch', jobIds);
         return data;
     }
 };

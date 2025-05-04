@@ -58,7 +58,7 @@ function JobDetailsContent() {
     <div className="bg-gray-900 text-gray-100">
       <Nav />
       <main className="pt-24 min-h-screen">
-        <div id="job-details-view" className="pt-20 min-h-screen">
+        <div id="job-details-view" className="min-h-screen">
           <div className="container mx-auto px-4 py-8">
             <div id="job-header" className="mb-8">
               <div className="flex items-center mb-6">

@@ -4,6 +4,7 @@ import applicationsService from '@/app/api/applications/applications';
 import profileService from '@/app/api/profile/profile';
 import { GetProfileResponse } from '@/app/api/profile/profile';
 import { Application } from '@/app/api/applications/types';
+import { useSession } from 'next-auth/react';
 
 interface Job {
   title: string;
@@ -17,11 +18,14 @@ interface Job {
   salaryRange: string;
   benefitsAndPerks: string;
 }
-
+interface Candidate extends GetProfileResponse {
+  firstName: string;
+  lastName: string;
+}
 interface ApplicationData {
   application: Application | null;
   job: Job | null;
-  candidate: GetProfileResponse | null;
+  candidate: Candidate | null;   
   loading: boolean;
   error: string | null;
   errorDetails?: {
@@ -32,6 +36,7 @@ interface ApplicationData {
 }
 
 export const useApplicationData = (jobId: string, applicationId: string) => {
+  const { data: session } = useSession();
   const [data, setData] = useState<ApplicationData>({
     application: null,
     job: null,
@@ -50,7 +55,7 @@ export const useApplicationData = (jobId: string, applicationId: string) => {
           throw new Error('Application not found');
         }
 
-        const candidate = await profileService.getProfileById(application.candidateId.toString());
+        const candidate =  { ...(await profileService.getProfileById(application.candidateId.toString())), firstName: session?.user?.firstName || '', lastName: session?.user?.lastName || ''  };
         console.log('Candidate data fetched successfully:', candidate);
 
         setData({
@@ -59,6 +64,7 @@ export const useApplicationData = (jobId: string, applicationId: string) => {
           candidate,
           loading: false,
           error: null,
+
         });
       } catch (error) {
         console.error('Error in useApplicationData:', error);

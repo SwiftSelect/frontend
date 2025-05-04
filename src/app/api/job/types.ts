@@ -80,3 +80,12 @@ export interface ExperienceRequirement {
     id: string;
     description: string;
 }
+
+export interface JobSummary {
+    id: number;
+    title: string;
+    company: string;
+    daysPostedAgo: number;
+    location: string;
+    salaryRange: string;
+}

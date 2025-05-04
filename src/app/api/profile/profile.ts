@@ -2,9 +2,9 @@ import { CandidateProfile, Demographics, Links } from '@/app/profile/useProfile'
 import createAPI from '..';
 
 export interface GetProfileResponse { 
-    current_position?: string,
+    currentPosition?: string,
     location?: string,
-    resume_url?: string,
+    resumeUrl?: string,
     skills?: string[],
     demographics?: Demographics,
     links?: Links;

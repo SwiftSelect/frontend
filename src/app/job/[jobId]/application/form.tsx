@@ -1,14 +1,14 @@
 import { useRef } from "react";
-import useApplication from "./useApplication";
+import { ApplicationFormValues } from "./useApplication";
+import { FormikProps } from "formik";
 
-export default function JobApplicationForm() {
-    const { formik, handleResumeUpload } = useApplication();
+export default function JobApplicationForm({ formik, handleResumeUpload }: { formik: FormikProps<ApplicationFormValues>, handleResumeUpload: (file: File) => void }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-        handleResumeUpload(file);
+            handleResumeUpload(file);
         }
     };
     return (
@@ -88,17 +88,17 @@ export default function JobApplicationForm() {
                     <label className="block text-gray-400 mb-2">Location</label>
                     <input
                       type="tel"
-                      name="phone"
-                      value={formik.values.currentLocation}
+                      name="location"
+                      value={formik.values.location}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       disabled
                       className={`w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                        formik.touched.currentLocation && formik.errors.currentLocation ? 'border-red-500' : ''
+                        formik.touched.location && formik.errors.location ? 'border-red-500' : ''
                       }`}
                     />
-                    {formik.touched.currentLocation && formik.errors.currentLocation && (
-                      <div className="text-red-500 text-sm mt-1">{formik.errors.currentLocation}</div>
+                    {formik.touched.location && formik.errors.location && (
+                      <div className="text-red-500 text-sm mt-1">{formik.errors.location}</div>
                     )}
                   </div>
                 </div>

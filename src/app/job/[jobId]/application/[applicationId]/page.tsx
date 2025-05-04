@@ -4,7 +4,6 @@ import Nav from "@/components/nav/nav";
 import Image from "next/image";
 import { useApplicationData } from "./useApplicationData";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 import { useResume } from "@/app/profile/useResume";
 
 export default function CandidateApplication() {
@@ -75,8 +74,8 @@ export default function CandidateApplication() {
               <div className="flex items-center">
                 <Image width={40} height={40} src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" className="w-20 h-20 rounded-full mr-4" alt="Candidate" />
                 <div>
-                  <h1 className="text-3xl font-bold">{candidate.current_position}</h1>
-                  <p className="text-gray-400">Application for {application.firstName} {application.lastName}</p>
+                  <h1 className="text-3xl font-bold">{candidate.firstName} {candidate.lastName}</h1>
+                  <p className="text-gray-400">Application for {job.title}</p>
                 </div>
               </div>
             </div>

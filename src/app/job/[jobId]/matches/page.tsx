@@ -66,7 +66,7 @@ export default function MatchesPage() {
                                   <span className="text-sm">San Francisco, CA</span>
                                 </div>
                               </div>
-                              <Link href={`/job/${1}/matches/${1}`}>
+                              <Link href={`/job/${1}/application/${1}`}>
                                 <button className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg">View Application</button>
                               
                               </Link>
