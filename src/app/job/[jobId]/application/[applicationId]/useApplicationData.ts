@@ -43,18 +43,15 @@ export const useApplicationData = (jobId: string, applicationId: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log('Fetching job data for jobId:', jobId);
         const job = await jobsService.getJobDetails(jobId);
-        // console.log('Job data fetched successfully:', job);
+        const application = await applicationsService.getApplication(applicationId);
 
-        // console.log('Fetching application data for jobId:', jobId, 'candidateId:', candidateId);
-        // const application = await applicationsService.getApplicationByCandidateId(jobId, candidateId);
-        const application = await applicationsService.getApplicationByApplicationId(applicationId);
-        // console.log('Application data fetched successfully:', application);
+        if (!application) {
+          throw new Error('Application not found');
+        }
 
-        // console.log('Fetching candidate data for candidateId:', application.candidateId);
-        const candidate = await profileService.getProfileById(application.candidateId);
-        // console.log('Candidate data fetched successfully:', candidate);
+        const candidate = await profileService.getProfileById(application.candidateId.toString());
+        console.log('Candidate data fetched successfully:', candidate);
 
         setData({
           application,

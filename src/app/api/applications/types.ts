@@ -3,15 +3,26 @@ import { Demographics, Links } from "@/app/profile/useProfile";
 export interface Application {
   _id: string;
   applicationId: string;
-  candidateId: string;
+  firstName: string;
+  lastName: string;
+  candidateId: number;
   jobId: string;
   resumeUrl: string;
   status: {
     currentStage: string;
     lastUpdated: string;
   };
+  links: {
+    linkedIn: string;
+    github: string;
+    website: string;
+  };
   email: string;
   phone: string;
+  location: string;
+  coverLetter: string;
+  skills: string[];
+  demographics: Demographics;
 } 
 
 export interface ApplicationRequest{ 
@@ -26,7 +37,7 @@ export interface ApplicationRequest{
     location: string,
     coverLetter: string,
     skills: string[],
-    demographics: Demographics,
+    demographics: Demographics
 }
 
 export interface ApplicationResponse {

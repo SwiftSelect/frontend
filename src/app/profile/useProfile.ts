@@ -23,12 +23,12 @@ export type Links = {
 }
 
 export type Demographics = {
-    authorization?: string,
-    gender?: string,
-    isHispanic?: string,
-    ethnicity?: string,
-    disability?: string,
-    veteran?: string
+    authorization?: string;
+    gender?: string;
+    isHispanic?: string;
+    ethnicity?: string;
+    disability?: string;
+    veteran?: string;
 }
 
 export type onChange = (name: string, value: string) => void;
@@ -118,10 +118,10 @@ const useProfile = () => {
         onSubmit: async (values, actions) => {
             try {
                 const mappedValues = {
-                    current_position: values.currentPosition,
+                    currentPosition: values.currentPosition,
                     location: values.location,
                     phone: values.phone,
-                    resume_url: values.resume, 
+                    resumeUrl: values.resume, 
                     skills: values.skills,
                     demographics: values.demographics,
                     links: values.links,
