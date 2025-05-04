@@ -34,6 +34,15 @@ interface UserResponse {
     }
 }
 
+interface OrgResponse {
+    id: number,
+    name: string,
+    domain: string,
+    description: string,
+    size: string,
+    industry: string,
+}
+
 const api = createAPI(process.env.NEXT_PUBLIC_AUTH_URL || "");
 
 const authService = {
@@ -49,6 +58,11 @@ const authService = {
 
     getUserOrgDetails: async () => {
         const { data } = await api.get<UserResponse>('/auth/get_user');
+        return data;
+    },
+
+    getOrgDetails: async (orgId: number) => {
+        const { data } = await api.get<OrgResponse>('/auth/get_org_details', { params: { org_id: orgId } });
         return data;
     },
 };

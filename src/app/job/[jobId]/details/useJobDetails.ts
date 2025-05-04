@@ -34,6 +34,7 @@ const useJobDetails = (jobId: string) => {
           overview: data.overview,
           description: data.description,
           company: data.company,
+          companyId: data.companyId,
           // companyDescription: data.companyDescription,
           // size: data.size,
           // industry: data.industry,

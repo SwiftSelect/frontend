@@ -5,17 +5,52 @@ import Nav from "@/components/nav/nav";
 import useJobDetails from "./useJobDetails";
 import useCompanyDetails from "./useCompanyDetails";
 import { SessionProvider } from "next-auth/react";
+import CollapsibleSection from "@/components/ui/collapsible-section";
 
 function JobDetailsContent() {
   const { jobId } = useParams();
-  const { job, loading, error } = useJobDetails(jobId as string);
+  const { job, loading: jobLoading, error: jobError } = useJobDetails(jobId as string);
   const { company, loading: companyLoading, error: companyError } = useCompanyDetails();
 
-  if (loading) return <p>Loading...</p>;
-  if (error || !job) return <p>{error || "Job not found"}</p>;
+  if (jobLoading || companyLoading) {
+    return (
+      <div className="bg-gray-900 text-gray-100 min-h-screen">
+        <Nav />
+        <div className="pt-24 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto"></div>
+            <p className="mt-4 text-gray-400">Loading job details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  if (companyLoading) return <p>Loading company details...</p>;
-  if (companyError || !company) return <p>{companyError || "Company not found"}</p>;
+  if (jobError || !job) {
+    return (
+      <div className="bg-gray-900 text-gray-100 min-h-screen">
+        <Nav />
+        <div className="pt-24 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-500">{jobError || "Job not found"}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (companyError || !company) {
+    return (
+      <div className="bg-gray-900 text-gray-100 min-h-screen">
+        <Nav />
+        <div className="pt-24 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-500">{companyError || "Company details not found"}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-900 text-gray-100">
@@ -52,22 +87,17 @@ function JobDetailsContent() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div id="main-content" className="lg:col-span-2 space-y-6">
-                <div id="overview" className="bg-gray-800 rounded-xl p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-semibold">Overview</h2>
-                    <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">{job.statusInfo.label}</span>
-                  </div>
+                <CollapsibleSection title="Overview">
                   <p className="text-gray-300 leading-relaxed">{job.overview}</p>
-                </div>
+                </CollapsibleSection>
 
-                <div id="description" className="bg-gray-800 rounded-xl p-6">
-                  <h2 className="text-xl font-semibold mb-6">Job Description</h2>
+                <CollapsibleSection title="Job Description">
                   <div className="space-y-4 text-gray-300">
                     <p className="leading-relaxed">{job.description}</p>
                   </div>
-                </div>
+                </CollapsibleSection>
 
-                <div id="requirements" className="bg-gray-800 rounded-xl p-6">
+                <div className="bg-gray-800 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-6">Requirements</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
@@ -99,9 +129,10 @@ function JobDetailsContent() {
               </div>
 
               <div id="sidebar" className="space-y-6">
-                <div id="apply-card" className="bg-gray-800 rounded-xl p-6">
+                <div className="bg-gray-800 rounded-xl p-6">
+                  <h2 className="text-xl font-semibold mb-4">Compensation</h2>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between pb-4 border-b border-gray-700">
+                    <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-400">Salary Range</p>
                         <p className="text-xl font-semibold">{job.salaryRange}</p>
@@ -121,7 +152,7 @@ function JobDetailsContent() {
                   </div>
                 </div>
 
-                <div id="benefits" className="bg-gray-800 rounded-xl p-6">
+                <div className="bg-gray-800 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-4">Benefits & Perks</h2>
                   <div className="space-y-3">
                     {job.benefitsAndPerks.map((benefit: string, i: number) => (
@@ -133,7 +164,7 @@ function JobDetailsContent() {
                   </div>
                 </div>
 
-                <div id="company-info" className="bg-gray-800 rounded-xl p-6">
+                <div className="bg-gray-800 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-4">About Company</h2>
                   <div className="flex items-center space-x-4 mb-4">
                     <img className="w-16 h-16 rounded-xl" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5d58064a24-427161b4c0a17740458a.png" alt="modern tech company logo with purple and dark theme" />
