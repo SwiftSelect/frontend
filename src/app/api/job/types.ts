@@ -4,7 +4,7 @@ export interface JobStatusInfo {
 }
 
 export interface JobDetails {
-    id: number;
+    id?: number;
     title: string;
     overview: string;
     description: string,
