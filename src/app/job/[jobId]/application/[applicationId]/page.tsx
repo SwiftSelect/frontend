@@ -30,17 +30,7 @@ function CandidateApplicationDetails() {
     if (!application?.resumeUrl) return;
     
     try {
-      const response = await getSignedUrl();
-      if (!response) return;
-      
-      const link = document.createElement('a');
-      link.href = response.signed_url;
-      link.target = '_blank';  
-      link.download = application.resumeUrl.split('/').pop() || 'resume';
- 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      await getSignedUrl();
     } catch (error) {
       console.error('Error downloading resume:', error);
     }

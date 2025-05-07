@@ -42,7 +42,7 @@ export const useResume = ({ onUploadComplete, fileInputRef, currentFile }: UseRe
 	const handleDownloadClick = async () => { 
 		try{
 			const response = await profileService.getSignedViewUrl(currentFile ?? '');
-			return response;
+			window.open(response.signed_url);
 		} catch(err){
 			setError('Failed to get resume');
 			console.error('Error getting resume:', err);
