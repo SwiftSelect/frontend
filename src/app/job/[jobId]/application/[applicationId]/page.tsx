@@ -5,13 +5,15 @@ import Image from "next/image";
 import { useApplicationData } from "./useApplicationData";
 import { useParams } from "next/navigation";
 import { useResume } from "@/app/profile/useResume";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { BackButton } from "@/components/buttons";
+import { useEffect, useState } from 'react';
 
 function CandidateApplicationDetails() {
   const params = useParams();
   const router = useRouter();
+  const { data: session } = useSession();
   const { jobId, applicationId } = params;
 
   const { application, job, candidate, loading, error, errorDetails } = useApplicationData(
@@ -19,12 +21,33 @@ function CandidateApplicationDetails() {
     applicationId as string
   );
 
-  const { handleDownloadClick } = useResume({ 
+  const { handleDownloadClick: getSignedUrl } = useResume({ 
     fileInputRef: { current: null },
     currentFile: application?.resumeUrl 
   });
 
-  
+  const handleDownloadClick = async () => {
+    if (!application?.resumeUrl) return;
+    
+    try {
+      const response = await getSignedUrl();
+      if (!response) return;
+      
+      const link = document.createElement('a');
+      link.href = response.signed_url;
+      link.target = '_blank';  
+      link.download = application.resumeUrl.split('/').pop() || 'resume';
+ 
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+    }
+  };
+
+  const isRecruiter = session?.user.isRecruiter;
+
   if (loading) {
     return (
       <div className="bg-gray-900 text-gray-100 min-h-screen">
@@ -233,26 +256,30 @@ function CandidateApplicationDetails() {
                       Download Resume
                     </button>
                   )}
-                  <button 
-                    className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
-                    disabled
-                  >
-                    <i className="fa-solid fa-calendar-plus mr-2"></i>
-                    Schedule Interview
-                    <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                      Feature coming soon!
-                    </span>
-                  </button>
-                  <button 
-                    className="w-full px-4 py-3 bg-gray-700/50 hover:bg-gray-700/50 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
-                    disabled
-                  >
-                    <i className="fa-solid fa-envelope mr-2"></i>
-                    Send Message
-                    <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                      Feature coming soon!
-                    </span>
-                  </button>
+                  {isRecruiter && (
+                    <>
+                      <button 
+                        className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
+                        disabled
+                      >
+                        <i className="fa-solid fa-calendar-plus mr-2"></i>
+                        Schedule Interview
+                        <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                          Feature coming soon!
+                        </span>
+                      </button>
+                      <button 
+                        className="w-full px-4 py-3 bg-gray-700/50 hover:bg-gray-700/50 rounded-lg flex items-center justify-center cursor-not-allowed relative group"
+                        disabled
+                      >
+                        <i className="fa-solid fa-envelope mr-2"></i>
+                        Send Message
+                        <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                          Feature coming soon!
+                        </span>
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 

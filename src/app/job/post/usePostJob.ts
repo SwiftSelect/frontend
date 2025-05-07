@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PostJobFormData, CreatedJobResponse } from '@/app/api/job/types';
 import jobsService from "@/app/api/job/jobsApi";
-import { useRouter } from 'next/navigation';
 import authService from "@/app/api/auth/auth";
 
 export const usePostJob = () => {
@@ -9,7 +8,7 @@ export const usePostJob = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
     const [companyId, setCompanyId] = useState<number>();
-    const router = useRouter();
+    const [companyName, setCompanyName] = useState<string>();
 
     useEffect(() => {
         const fetchUserOrgDetails = async () => {
@@ -17,6 +16,7 @@ export const usePostJob = () => {
                 const userDetails = await authService.getUserOrgDetails();
                 if (userDetails?.org?.id) {
                     setCompanyId(userDetails.org.id);
+                    setCompanyName(userDetails.org.name);
                 }
             } catch (error) {
                 console.error('Error fetching user organization details:', error);
@@ -34,6 +34,7 @@ export const usePostJob = () => {
             const formattedJobData = {
                 ...jobData,
                 companyId: companyId || jobData.companyId, // Use the fetched companyId if available
+                company: companyName || jobData.company,
                 salaryRange: `$${jobData.salaryFrom} - $${jobData.salaryTo}`,
                 benefitsAndPerks: jobData.benefitsAndPerks?.length ? jobData.benefitsAndPerks.join(", ") : "",
                 skills: jobData.skills?.length ? jobData.skills.join(", ") : "",
@@ -56,7 +57,7 @@ export const usePostJob = () => {
         }
     };
 
-    return { createJob, loading, error, success, companyId };
+    return { createJob, loading, error, success, companyId, companyName };
 };
 
 export default usePostJob;

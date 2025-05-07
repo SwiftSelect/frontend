@@ -144,14 +144,25 @@ function JobDetailsContent() {
                     <div className="space-y-3">
                       {!isRecruiter && (
                         <>
-                          <button className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center">
+                          <button 
+                            onClick={() => router.push(`/job/${jobId}/application`)}
+                            className="w-full px-4 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center"
+                          >
                             <i className="fa-solid fa-paper-plane mr-2"></i>
                             Apply Now
                           </button>
-                          <button className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center">
-                            <i className="fa-regular fa-bookmark mr-2"></i>
-                            Save Job
-                          </button>
+                          <div className="relative group">
+                            <button 
+                              className="w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center cursor-not-allowed opacity-50"
+                              disabled
+                            >
+                              <i className="fa-regular fa-bookmark mr-2"></i>
+                              Save Job
+                            </button>
+                            <span className="absolute bottom-full mb-2 px-2 py-1 bg-gray-800 text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                              This feature is coming soon!
+                            </span>
+                          </div>
                         </>
                       )}
                     </div>

@@ -30,7 +30,7 @@ const profileService = {
     },
 
     getProfileById: async (id: string) => {
-        const { data } = await api.get<GetProfileResponse>(`/profile/${id}`);
+        const { data } = await api.get<GetProfileResponse>(`/profile/get-profile/${id}`);
         return data;
     },
 

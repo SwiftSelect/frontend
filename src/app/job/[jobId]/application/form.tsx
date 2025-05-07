@@ -201,12 +201,18 @@ export default function JobApplicationForm({ formik, handleResumeUpload }: { for
                   Your information is secure and encrypted
                 </div>
                 <div className="flex gap-4">
-                  <button 
-                    type="button" 
-                    className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg"
-                  >
-                    Save Draft
-                  </button>
+                  <div className="relative group">
+                    <button 
+                      type="button" 
+                      disabled
+                      className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg opacity-50 cursor-not-allowed"
+                    >
+                      Save Draft
+                    </button>
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                      This feature is coming soon!
+                    </div>
+                  </div>
                   <button 
                     type="submit" 
                     className="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center"
