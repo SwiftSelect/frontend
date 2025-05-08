@@ -9,7 +9,6 @@ import similarityService, { JobRecommendationsResponse } from '../api/similarity
 export const useCandidate = () => {
     const { data: session } = useSession();
     const [jobs, setJobs] = useState<Record<string, JobDetails>>({});
-
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);    
@@ -28,17 +27,19 @@ export const useCandidate = () => {
                 const jobSummaries = await jobsService.getJobSummaries(data.recommendations.map(r => r.job_id.toString()));
                 setJobSummaries(new Map(jobSummaries.map(j => [j.id.toString(), j])));
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to fetch job recommendations');
-                setLoading(false);
+                console.error('Error fetching job recommendations:', err);
             }
         }
+
         const fetchApplications = async () => {
             try {
-                const data = await applicationsService.getApplicationByCandidateId(session?.user.id || '');
-                setApplications(Array.isArray(data) ? data : []);
-                setLoading(false);
+                if (!session?.user.id) return;
+                const data = await applicationsService.getApplicationByCandidateId(session.user.id);
+                setApplications(Array.isArray(data) ? data : [data]);
             } catch (err) {
+                console.error('Error fetching applications:', err);
                 setError(err instanceof Error ? err.message : 'Failed to fetch applications');
+            } finally {
                 setLoading(false);
             }
         };
@@ -46,21 +47,27 @@ export const useCandidate = () => {
         if (session?.user.id) {
             fetchApplications();
             getJobRecommendations();
+        } else {
+            setLoading(false);
         }
     }, [session?.user.id]);
 
     useEffect(() => {
         const fetchJobs = async () => {
             if (applications.length > 0) {
-                const jobPromises = applications.map(app => 
-                    jobsService.getJobDetails(app.jobId.toString())
-                );  
-                const jobResults = await Promise.all(jobPromises);
-                const jobsMap = jobResults.reduce((acc, job, index) => {
-                    acc[applications[index].jobId] = job;
-                    return acc;
-                }, {} as Record<string, JobDetails>);
-                setJobs(jobsMap);
+                try {
+                    const jobPromises = applications.map(app => 
+                        jobsService.getJobDetails(app.jobId.toString())
+                    );  
+                    const jobResults = await Promise.all(jobPromises);
+                    const jobsMap = jobResults.reduce((acc, job, index) => {
+                        acc[applications[index].jobId] = job;
+                        return acc;
+                    }, {} as Record<string, JobDetails>);
+                    setJobs(jobsMap);
+                } catch (err) {
+                    console.error('Error fetching job details:', err);
+                }
             }
         };
 
