@@ -7,6 +7,11 @@ import Nav from "@/components/nav/nav";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useState } from "react";
 
+interface Match {
+    application_id: string;
+    candidate_name: string;
+}
+
 function RecruiterContent() {
     const { postedJobs, jobMatches } = useRecruiter();
     const { data: session } = useSession();
@@ -50,20 +55,22 @@ function RecruiterContent() {
                         </div>
                         <div id="job-list" className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
                         {filteredJobs
-                            .filter(job => job.id != null)
+                            .filter(job => job.id !== null)
                             .map((job) => {
                                 // console.log('Job ID:', job.id);
                                 return (
                                 <div key={job.id} className="bg-gray-900 rounded-lg p-4 hover:bg-gray-900/80 transition">
                                     <div className="flex justify-between items-start mb-3">
                                         <div>
-                                            <h3 className="font-semibold">{job.title}</h3>
+                                            <Link href={`/job/${job.id}/details`}>
+                                                <h3 className="font-semibold">{job.title}</h3>
+                                            </Link>
                                             <p className="text-gray-400 text-sm">Posted {job.daysPostedAgo} days ago</p>
                                         </div>
                                         <div className="flex items-center space-x-2">
                                             <div className="relative group">
                                                 <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm">
-                                                    {jobMatches[job.id]?.total_matches || 0} Matches
+                                                    {jobMatches[Number(job.id)]?.matches.length || 0} Matches
                                                 </span>
                                             </div>
                                             <button className="text-gray-400 hover:text-purple-500">
@@ -84,7 +91,7 @@ function RecruiterContent() {
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <div className="flex -space-x-2">
-                                            {jobMatches[job.id]?.matches?.slice(0, 3).map((match) => (
+                                            {jobMatches[job.id]?.matches?.slice(0, 3).map((match: Match) => (
                                                 <Image
                                                     key={match.application_id}
                                                     src={`https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-${(parseInt(match.application_id.slice(-2), 16) % 8) + 1}.jpg`}

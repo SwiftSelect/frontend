@@ -1,12 +1,14 @@
 import { useResume } from './useResume';
 import { useRef } from 'react';
+import { ProfileFormErrors } from './useProfile';
 
 interface ResumeComponentProps {
   onUploadComplete?: (filePath: string) => void;
   currentFile?: string;
+  profileFormikErrors: ProfileFormErrors;
 }
 
-const ResumeComponent = ({ onUploadComplete, currentFile }: ResumeComponentProps) => {
+const ResumeComponent = ({ onUploadComplete, currentFile, profileFormikErrors }: ResumeComponentProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { isUploading, error, handleUploadClick, handleFileChange, handleDownloadClick } = useResume({
     onUploadComplete, 
@@ -60,6 +62,11 @@ const ResumeComponent = ({ onUploadComplete, currentFile }: ResumeComponentProps
         {error && (
           <div className="mt-2 text-red-500 text-sm">
             {error}
+          </div>
+        )}
+        {profileFormikErrors.resume && (
+          <div className="mt-2 text-red-500 text-sm">
+            {profileFormikErrors.resume}
           </div>
         )}
       </div>

@@ -22,6 +22,7 @@ export const useCandidate = () => {
     useEffect(() => {
         const getJobRecommendations = async () => {
             try {
+                setLoading(true);
                 const data = await similarityService.getRecommendedJobs(session?.user.id || '');
                 setJobRecommendations(data);
                 const jobSummaries = await jobsService.getJobSummaries(data.recommendations.map(r => r.job_id.toString()));
@@ -34,7 +35,7 @@ export const useCandidate = () => {
         const fetchApplications = async () => {
             try {
                 const data = await applicationsService.getApplicationByCandidateId(session?.user.id || '');
-                setApplications(Array.isArray(data) ? data : [data]);
+                setApplications(Array.isArray(data) ? data : []);
                 setLoading(false);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to fetch applications');

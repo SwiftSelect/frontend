@@ -23,8 +23,11 @@ const applicationsService = {
             console.log('Getting application by candidate ID:', { candidateId });
             const { data } = await api.get<Application[]>(`/applications/candidate/${candidateId}`);
             
-            if (!data) {
-                throw new Error(`Application with candidate ID ${candidateId} not found`);
+            // if (!data) {
+            //     throw new Error(`Application with candidate ID ${candidateId} not found`);
+            // }
+            if(data === null) {
+                return [];
             }
             
             console.log('Found application:', data);

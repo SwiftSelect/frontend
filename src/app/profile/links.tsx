@@ -1,5 +1,5 @@
 import { FormikProps } from "formik";
-import { onChange, Links, CandidateProfile } from "./useProfile";
+import { onChange, Links, CandidateProfile, ProfileFormErrors } from "./useProfile";
 
 interface LinksComponentProps {
     values: Links | undefined;
@@ -23,7 +23,7 @@ const LinksComponent = ({ values, onChange, profileFormik }: LinksComponentProps
                     onChange={(e) => onChange('linkedin', e.target.value)}
                 />
                 <div className="text-red-500 text-sm mt-1">
-                    {(profileFormik.errors as Record<string, string>)["links.linkedin"] || ''}
+                    {(profileFormik.errors as ProfileFormErrors).links?.linkedin || ''}
                 </div>
             </div>
             <div className="mb-4">
@@ -32,12 +32,13 @@ const LinksComponent = ({ values, onChange, profileFormik }: LinksComponentProps
                     type="url"
                     value={values?.github || ''}
                     name="links.github"
+                    onBlur={profileFormik.handleBlur}
                     placeholder="https://github.com/username"
                     className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                     onChange={(e) => onChange('github', e.target.value)}
                 />
                 <div className="text-red-500 text-sm mt-1">
-                    {(profileFormik.errors as Record<string, string>)["links.github"] || ''}
+                    {(profileFormik.errors as ProfileFormErrors).links?.github || ''}
                 </div>
             </div>
             <div className="mb-4">
@@ -46,12 +47,13 @@ const LinksComponent = ({ values, onChange, profileFormik }: LinksComponentProps
                     type="url"
                     value={values?.website || ''}
                     name="links.website"
+                    onBlur={profileFormik.handleBlur}
                     placeholder="https://yourwebsite.com"
                     className="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                     onChange={(e) => onChange('website', e.target.value)}
                 />
                 <div className="text-red-500 text-sm mt-1">
-                    {(profileFormik.errors as Record<string, string>)["links.website"] || ''}
+                    {(profileFormik.errors as ProfileFormErrors).links?.website || ''}
                 </div>
             </div>
         </div>

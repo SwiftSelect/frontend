@@ -8,7 +8,6 @@ import { useResume } from "@/app/profile/useResume";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { BackButton } from "@/components/buttons";
-import { useEffect, useState } from 'react';
 
 function CandidateApplicationDetails() {
   const params = useParams();
@@ -152,14 +151,14 @@ function CandidateApplicationDetails() {
                     <div className="space-y-4">
                       <div>
                         <h3 className="text-gray-400 text-sm">LinkedIn</h3>
-                        {application.links.linkedIn ? (
+                        {application.links.linkedin ? (
                           <a 
-                            href={application.links.linkedIn} 
+                            href={application.links.linkedin} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-purple-400 hover:text-purple-300"
                           >
-                            {application.links.linkedIn}
+                            {application.links.linkedin}
                           </a>
                         ) : (
                           <p className="text-gray-300">Not provided</p>

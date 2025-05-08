@@ -29,13 +29,14 @@ const createAPI = (url: string) => {
 		(response) => {
 			return response;
 		},
-		(error: AxiosError) => {
+		async (error: AxiosError<{detail: string}>) => {
 			if (error.response) {
 			const status = error.response.status;
 			
 			switch (status) {
 				case 401:
-				signOut();
+                    await signOut({ redirect: false });
+                    window.location.href = '/';
 				break;
 				case 403:
 				break;

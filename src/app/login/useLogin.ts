@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import authService from "@/app/api/auth/auth";
+import { AxiosError } from "axios";
 
 const useLogin = () => {
     const [view, setView] = useState("signin");
@@ -92,7 +93,7 @@ const useLogin = () => {
                     toast.success('Account created successfully!');
                 }
             } catch (error) {
-                toast.error(error instanceof Error ? error.message : 'Signup failed');
+                toast.error(error instanceof AxiosError ? error.response?.data?.detail : 'Signup failed');
             } finally {
                 actions.setSubmitting(false);
             }

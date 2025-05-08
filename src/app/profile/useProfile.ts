@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import profileService from "../api/profile/profile";
 import { useEffect } from "react";
+import { AxiosError } from "axios";
 
 export type CandidateProfile =  {
     currentPosition?: string,
@@ -29,6 +30,27 @@ export type Demographics = {
     ethnicity?: string;
     disability?: string;
     veteran?: string;
+}
+
+export type ProfileFormErrors = {
+    currentPosition?: string;
+    location?: string;
+    phone?: string;
+    resume?: string;
+    skills?: string;
+    demographics?: {
+        authorization?: string;
+        gender?: string;
+        isHispanic?: string;
+        ethnicity?: string;
+        disability?: string;
+        veteran?: string;
+    };
+    links?: {
+        linkedin?: string;
+        github?: string;
+        website?: string;
+    };
 }
 
 export type onChange = (name: string, value: string) => void;
@@ -79,7 +101,7 @@ const useProfile = () => {
             }
             profileFormik.setValues(mappedValues);
         } catch(error){
-            toast.error(error instanceof Error ? error.message : 'Failed to fetch profile')
+            toast.error(error instanceof AxiosError ? error.response?.data?.detail : 'Failed to fetch profile')
         }
 
     }
@@ -90,19 +112,25 @@ const useProfile = () => {
     });
 
     const candidateSchema = z.object({
-        resume: z.any(),
+        resume: z.string().min(2, "Resume is required"),
         skills: z.string().array().min(5, "Minimum of 5 skills are required"),
         demographics: z.object({
-            authorization: z.string().min(2, "Work authorization is required"),
+            authorization: z.string().min(1, "Work authorization is required"),
+            gender: z.string().min(1, "Gender is required"),
+            isHispanic: z.string().min(1, "Hispanic status is required"),
+            ethnicity: z.string().min(1, "Ethnicity is required"),
+            disability: z.string().min(1, "Disability status is required"),
+            veteran: z.string().min(1, "Veteran status is required"),
         }),
         links: z.object({
-            linkedin: z.string().refine(
+            linkedin: z.string().min(1, "LinkedIn URL is required").refine(
                 (val) => /(https?:\/\/(www.)|(www.))?linkedin.com\/(mwlite\/|m\/)?in\/[a-zA-Z0-9_.-]+\/?/.test(val),
-                { message: 'Invalid Linkedin url' }
+                { message: 'Invalid LinkedIn URL' }
             ),
+            github: z.string().optional(),
+            website: z.string().optional(),
         })
     });
-
 
     const handleResumeUploadComplete = async (filePath: string) => {
         await profileFormik.setFieldValue('resume', filePath);
@@ -137,7 +165,6 @@ const useProfile = () => {
             }
         },
     });
-
 
     const handleResumeUpload = (file: File) => {
         profileFormik.setFieldValue('resume', file);

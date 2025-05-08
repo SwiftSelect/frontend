@@ -12,11 +12,7 @@ export interface Application {
     currentStage: string;
     lastUpdated: string;
   };
-  links: {
-    linkedIn: string;
-    github: string;
-    website: string;
-  };
+  links: Links;
   email: string;
   phone: string;
   location: string;

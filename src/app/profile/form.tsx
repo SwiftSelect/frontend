@@ -1,5 +1,5 @@
 'use client';
-import useProfile  from "./useProfile";
+import useProfile, { ProfileFormErrors }  from "./useProfile";
 import ResumeComponent from "./resume";
 import SkillsComponent from "./skills";
 import DemographicsComponent from "./demographics";
@@ -72,6 +72,7 @@ const ProfileForm = () => {
                     <ResumeComponent 
                         onUploadComplete={handleResumeUploadComplete}
                         currentFile={profileFormik.values.resume}
+                        profileFormikErrors={profileFormik.errors as ProfileFormErrors}
                     />
                     <SkillsComponent 
                         skills={profileFormik.values.skills}
