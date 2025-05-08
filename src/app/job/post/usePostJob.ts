@@ -9,6 +9,7 @@ export const usePostJob = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const [companyId, setCompanyId] = useState<number>();
     const [companyName, setCompanyName] = useState<string>();
+    const [recruiterId, setRecruiterId] = useState<number>();
 
     useEffect(() => {
         const fetchUserOrgDetails = async () => {
@@ -17,6 +18,7 @@ export const usePostJob = () => {
                 if (userDetails?.org?.id) {
                     setCompanyId(userDetails.org.id);
                     setCompanyName(userDetails.org.name);
+                    setRecruiterId(userDetails.id)
                 }
             } catch (error) {
                 console.error('Error fetching user organization details:', error);
@@ -39,6 +41,7 @@ export const usePostJob = () => {
                 benefitsAndPerks: jobData.benefitsAndPerks?.length ? jobData.benefitsAndPerks.join(", ") : "",
                 skills: jobData.skills?.length ? jobData.skills.join(", ") : "",
                 status: 0,
+                recruiterId: recruiterId,
                 postedDate: new Date().toISOString().split('.')[0] + 'Z'
             };
             
