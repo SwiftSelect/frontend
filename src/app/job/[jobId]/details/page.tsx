@@ -8,7 +8,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 import CollapsibleSection from "@/components/ui/collapsible-section";
 import { BackButton } from "@/components/buttons";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 function JobDetailsContent() {
   const { jobId } = useParams();
   const { job, loading: jobLoading, error: jobError } = useJobDetails(jobId as string);
@@ -184,7 +184,7 @@ function JobDetailsContent() {
                 <div className="bg-gray-800 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-4">About Company</h2>
                   <div className="flex items-center space-x-4 mb-4">
-                    <img className="w-16 h-16 rounded-xl" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5d58064a24-427161b4c0a17740458a.png" alt="modern tech company logo with purple and dark theme" />
+                    <Image height={40} width={40} className="w-16 h-16 rounded-xl" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5d58064a24-427161b4c0a17740458a.png" alt="modern tech company logo with purple and dark theme" />
                     <div>
                       <h3 className="font-medium">{company.companyName}</h3>
                       <p className="text-sm text-gray-400">{company.companyIndustry} • {company.companySize}</p>
